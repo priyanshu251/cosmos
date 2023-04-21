@@ -1,4 +1,6 @@
+import 'dart:math';
 import 'package:astro_pro/screens/current_apod_result_page.dart';
+import 'package:astro_pro/screens/infinite_apod_page.dart';
 import 'package:astro_pro/services/api_data.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +12,7 @@ class AddParameterScreen extends StatefulWidget {
 }
 
 class _AddParameterScreenState extends State<AddParameterScreen> {
-  TextEditingController dateInput = TextEditingController();
-
+  DateTime date = DateTime.now();
   APODModel apodModel = APODModel();
 
   @override
@@ -66,39 +67,61 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
               },
             ),
             GetAPOD(
-              parameter: TextField(
-                controller: dateInput,
-                decoration: const InputDecoration(
-                  constraints: BoxConstraints(maxWidth: 30, maxHeight: 25),
-                  icon: Icon(Icons.calendar_today),
-                  border: OutlineInputBorder(),
-                  labelText: 'choose a date',
-                ),
-                readOnly: true,
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
+              parameter: OutlinedButton.icon(
+                onPressed: () async {
+                  DateTime? selectedDate = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1950),
-                      //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime(2100));
-                  if (pickedDate != null) {
-                    print(
-                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                    String formattedDate =
-                        DateFormat('yyyy-MM-dd').format(pickedDate);
-                    print(
-                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                      initialDate: date,
+                      firstDate: DateTime(1996),
+                      lastDate: DateTime.now());
+                  if (selectedDate == null) {
+                    return;
+                  } else {
                     setState(() {
-                      dateInput.text =
-                          formattedDate; //set output date to TextField value.
+                      date = selectedDate;
                     });
-                  } else {}
+                  }
                 },
+                icon: const Icon(Icons.calendar_today),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color.fromARGB(255, 18, 69, 187),
+                ),
+                label: Text(
+                  '${date.year}-${date.month}-${date.day}',
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 70, 68, 68),
+                  ),
+                ),
               ),
+              onPress: () async {
+                var apodData = await apodModel.getCurrentAPOD(
+                    DateFormat("yyyy-MM-dd")
+                        .format(date.subtract(const Duration(days: 2))));
+                if (!mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        CurrentAPODResultPage(apodData: apodData),
+                  ),
+                );
+              },
             ),
             GetAPOD(
               parameter: const Text('Random'),
+              onPress: () async {
+                Random random = Random();
+                int count = random.nextInt(100) + 50;
+                var apodData = await apodModel.getInfiniteAPOD(count);
+                if (!mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        InfiniteAPOD(aopdData: apodData, index: count),
+                  ),
+                );
+              },
             )
           ],
         ),
@@ -120,6 +143,7 @@ class GetAPOD extends StatelessWidget {
       children: [
         parameter!,
         Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
           padding: const EdgeInsets.all(0),
           child: MaterialButton(
             shape: RoundedRectangleBorder(

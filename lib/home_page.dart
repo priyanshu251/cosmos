@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         leading: const Icon(Icons.menu),
         title: const Text(
-          'Astro_Pro',
+          'astro_pro',
           style: TextStyle(fontFamily: "Entanglement", fontSize: 28),
         ),
         centerTitle: true,
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                 textAlign: TextAlign.justify,
               ),
               SizedBox(
-                height: mediaquery.size.height * 0.2,
+                height: mediaquery.size.height * 0.1,
               ),
               ExplorationTitle(
                 title: 'APOD',
