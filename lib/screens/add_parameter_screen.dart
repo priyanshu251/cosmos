@@ -109,16 +109,15 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
             ),
             GetAPOD(
               parameter: const Text('Random'),
-              onPress: () async {
-                Random random = Random();
-                int count = random.nextInt(100) + 50;
-                var apodData = await apodModel.getInfiniteAPOD(count);
-                if (!mounted) return;
+              onPress: () {
+                // Random random = Random();
+                // int count = random.nextInt(100) + 50;
+                // var apodData = await apodModel.getInfiniteAPOD(count);
+                // if (!mounted) return;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        InfiniteAPOD(aopdData: apodData, index: count),
+                    builder: (context) => InfiniteAPOD(),
                   ),
                 );
               },

@@ -9,4 +9,11 @@ class APODModel {
     var apodData = await networkHelper.getData();
     return apodData;
   }
+
+  Future<dynamic> getInfiniteAPOD(int count) async {
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://api.nasa.gov/planetary/apod?api_key=$apiKey&count=$count');
+    var apodData = await networkHelper.getData();
+    return apodData;
+  }
 }
