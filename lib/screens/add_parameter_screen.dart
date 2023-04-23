@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:astro_pro/screens/current_apod_result_page.dart';
 import 'package:astro_pro/screens/infinite_apod_page.dart';
 import 'package:astro_pro/services/api_data.dart';

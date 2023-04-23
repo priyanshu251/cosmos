@@ -1,6 +1,8 @@
+import 'package:astro_pro/screens/current_apod_result_page.dart';
 import 'package:astro_pro/services/networking.dart';
 import 'package:flutter/material.dart';
-import '../services/networking.dart';
+import 'package:astro_pro/constant.dart';
+import 'package:astro_pro/screens/current_apod_result_page.dart';
 
 class InfiniteAPOD extends StatefulWidget {
   @override
@@ -12,7 +14,21 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 32, 31, 31),
+        backgroundColor: const Color.fromARGB(
+            255, 3, 0, 42), //const Color.fromRGBO(24, 25, 32, 1)
+        appBar: AppBar(
+          leading: const Icon(Icons.menu),
+          title: const Text(
+            ' astro_pro',
+            style: TextStyle(fontFamily: "Entanglement", fontSize: 28),
+          ),
+          centerTitle: true,
+          shadowColor: Colors.black,
+          actions: const [Icon(Icons.arrow_back)],
+          flexibleSpace: Container(
+            decoration: kGradientDecoration,
+          ),
+        ),
         body: ListView.builder(
           itemBuilder: (context, index) {
             return APODRandomImage();
@@ -60,12 +76,33 @@ class _APODRandomImageState extends State<APODRandomImage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Container(
-        margin: const EdgeInsets.all(10),
-        height: 300,
-        width: screenWidth * 0.8,
+        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+        height: screenHeight * 0.3,
+        width: screenWidth * 0.8, //remember this
         child: hasData
-            ? Image(image: NetworkImage(data['url']))
+            ? ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: InteractiveViewer(
+                  minScale: 0.8,
+                  maxScale: 2.5,
+                  child: MaterialButton(
+                    padding: const EdgeInsets.all(0),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CurrentAPODResultPage(apodData: data)));
+                    },
+                    child: Image(
+                      image: NetworkImage(data['url']),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              )
             : const Center(
                 child: CircularProgressIndicator(),
               ));

@@ -48,10 +48,8 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontFamily: "Entanglement", fontSize: 28),
         ),
         centerTitle: true,
-        actions: const [Icon(Icons.close)],
-        flexibleSpace: Container(
-          decoration: kGradientDecoration,
-        ),
+        actions: const [Icon(Icons.arrow_back)],
+        flexibleSpace: Container(decoration: kGradientDecoration),
       ),
       body: Stack(children: <Widget>[
         SizedBox.expand(
@@ -78,14 +76,16 @@ class _HomePageState extends State<HomePage> {
                   fontFamily: "Saturday",
                 ),
               ),
-              const SizedBox(height: 15),
+              SizedBox(
+                height: mediaquery.size.height * 0.007,
+              ),
               const Text(
                 'Space exploration is the use of astronomy and space technology to explore outer space. While the exploration of space is carried out mainly by astronomers with telescopes, its physical exploration is conducted both by uncrewed robotic space probes and human spaceflight.',
                 style: TextStyle(color: Colors.white, fontSize: 17),
                 textAlign: TextAlign.justify,
               ),
               SizedBox(
-                height: mediaquery.size.height * 0.1,
+                height: mediaquery.size.height * 0.09,
               ),
               ExplorationTitle(
                 title: 'APOD',
