@@ -1,5 +1,6 @@
 import 'package:astro_pro/constant.dart';
 import 'package:flutter/material.dart';
+import 'planet_details.dart';
 
 class PlanetList extends StatelessWidget {
   const PlanetList({super.key});
@@ -40,10 +41,19 @@ class PlanetList extends StatelessWidget {
                     margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                     child: Column(
                       children: [
-                        PlanetCard(
-                            planetName: '# Planet: 1',
-                            screenHeight: screenHeight,
-                            screenwidth: screenwidth),
+                        MaterialButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PlanetDetails()),
+                            );
+                          },
+                          child: PlanetCard(
+                              planetName: '# Planet: 1',
+                              screenHeight: screenHeight,
+                              screenwidth: screenwidth),
+                        ),
                         PlanetCard(
                             planetName: '# Planet: 1',
                             screenHeight: screenHeight,

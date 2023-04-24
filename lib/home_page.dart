@@ -49,6 +49,11 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontFamily: "Entanglement", fontSize: 28),
         ),
         centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ), //shape not working
         actions: const [Icon(Icons.arrow_back)],
         flexibleSpace: Container(decoration: kGradientDecoration),
       ),
