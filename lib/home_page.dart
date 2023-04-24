@@ -1,5 +1,6 @@
 import 'package:astro_pro/constant.dart';
 import 'package:astro_pro/screens/add_parameter_screen.dart';
+import 'package:astro_pro/screens/planet_list.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
@@ -104,8 +105,13 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ExplorationTitle(
-                title: 'Planets',
-              ),
+                  title: 'Planets',
+                  onPress: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => PlanetList())));
+                  }),
               ExplorationTitle(
                 title: 'Stars',
               ),
@@ -125,7 +131,7 @@ class ExplorationTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       width: 200,
       child: MaterialButton(
         shape: RoundedRectangleBorder(

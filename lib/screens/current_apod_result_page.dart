@@ -15,7 +15,8 @@ class _CurrentAPODResultPageState extends State<CurrentAPODResultPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 3, 0, 42),
+        backgroundColor: const Color.fromRGBO(24, 25, 32,
+            1), //teal const Color.fromARGB(255, 0, 19, 19), //const Color.fromARGB(255, 3, 0, 42),
         body: SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.fromLTRB(10, 15, 10, 0),

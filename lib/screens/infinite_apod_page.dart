@@ -14,8 +14,8 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(
-            255, 3, 0, 42), //const Color.fromRGBO(24, 25, 32, 1)
+        backgroundColor: const Color.fromRGBO(
+            24, 25, 32, 1), //const Color.fromRGBO(24, 25, 32, 1)
         appBar: AppBar(
           leading: const Icon(Icons.menu),
           title: const Text(
@@ -82,23 +82,31 @@ class _APODRandomImageState extends State<APODRandomImage> {
         height: screenHeight * 0.3,
         width: screenWidth * 0.8, //remember this
         child: hasData
-            ? ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                child: InteractiveViewer(
-                  minScale: 0.8,
-                  maxScale: 2.5,
-                  child: MaterialButton(
-                    padding: const EdgeInsets.all(0),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CurrentAPODResultPage(apodData: data)));
-                    },
-                    child: Image(
-                      image: NetworkImage(data['url']),
-                      fit: BoxFit.fill,
+            ? MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CurrentAPODResultPage(apodData: data)));
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.all(0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    child: InteractiveViewer(
+                      minScale: 0.8,
+                      maxScale: 2.5,
+                      child: Image(
+                        image: NetworkImage(data['url']),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
