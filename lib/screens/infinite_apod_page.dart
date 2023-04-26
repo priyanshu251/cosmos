@@ -54,7 +54,8 @@ class _APODRandomImageState extends State<APODRandomImage> {
   void load() async {
     while (data == null || data['url'] == null || url[url.length - 1] != 'g') {
       dynamic result = await NetworkHelper(
-              'https://api.nasa.gov/planetary/apod?api_key=237go3yWSmfxSH7slPZB2k10kcXmmULSvcc8AHuc&count=1')
+              'https://api.nasa.gov/planetary/apod?api_key=237go3yWSmfxSH7slPZB2k10kcXmmULSvcc8AHuc&count=1',
+              '')
           .getData();
       data = result[0];
       if (data['url'] != null) {
