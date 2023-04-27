@@ -80,6 +80,7 @@ class _APODRandomImageState extends State<APODRandomImage> {
     double screenHeight = MediaQuery.of(context).size.height;
     return Container(
         margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+        padding: const EdgeInsets.all(0),
         height: screenHeight * 0.3,
         width: screenWidth * 0.8, //remember this
         child: hasData
@@ -95,18 +96,19 @@ class _APODRandomImageState extends State<APODRandomImage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 padding: const EdgeInsets.all(0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  child: Container(
+                    height: screenHeight * 0.3,
+                    width: screenWidth * 0.8,
+                    margin: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     child: InteractiveViewer(
                       minScale: 0.8,
                       maxScale: 2.5,
                       child: Image(
                         image: NetworkImage(data['url']),
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

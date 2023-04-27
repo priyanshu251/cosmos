@@ -17,28 +17,68 @@ class PlanetList extends StatelessWidget {
             children: <Widget>[
               //This Container will remains constant
               Container(
-                margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 decoration: BoxDecoration(
                   color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: Column(children: [
-                  PlanetParameterTile(parameter: 'Mass: '),
-                  PlanetParameterTile(
-                    parameter: 'Radius: ',
-                  ),
-                  PlanetParameterTile(
-                    parameter: 'Temperature: ',
-                  ),
-                ]),
+                child: Column(
+                  children: [
+                    ExpansionTile(
+                      tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+                      title: const Text(
+                        'Mass',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      textColor: const Color.fromARGB(255, 30, 82, 204),
+                      collapsedTextColor: Colors.white,
+                      iconColor: Colors.white,
+                      collapsedIconColor: Colors.white,
+                      children: [
+                        ExpandedPlanetParameters(parameter: 'min:'),
+                        ExpandedPlanetParameters(parameter: 'max:'),
+                      ],
+                    ),
+                    ExpansionTile(
+                      tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+                      title: const Text(
+                        'Radius',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      textColor: const Color.fromARGB(255, 30, 82, 204),
+                      collapsedTextColor: Colors.white,
+                      iconColor: Colors.white,
+                      collapsedIconColor: Colors.white,
+                      children: [
+                        ExpandedPlanetParameters(parameter: 'min:'),
+                        ExpandedPlanetParameters(parameter: 'max:'),
+                      ],
+                    ),
+                    ExpansionTile(
+                      tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+                      title: const Text(
+                        'Orbital Period',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      textColor: const Color.fromARGB(255, 30, 82, 204),
+                      collapsedTextColor: Colors.white,
+                      iconColor: Colors.white,
+                      collapsedIconColor: Colors.white,
+                      children: [
+                        ExpandedPlanetParameters(parameter: 'min:'),
+                        ExpandedPlanetParameters(parameter: 'max:'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               Expanded(
                 child: SingleChildScrollView(
                   //This is Scrollable Container
                   child: Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                     child: Column(
                       children: [
                         MaterialButton(
@@ -54,26 +94,6 @@ class PlanetList extends StatelessWidget {
                               screenHeight: screenHeight,
                               screenwidth: screenwidth),
                         ),
-                        PlanetCard(
-                            planetName: '# Planet: 1',
-                            screenHeight: screenHeight,
-                            screenwidth: screenwidth),
-                        PlanetCard(
-                            planetName: '# Planet: 1',
-                            screenHeight: screenHeight,
-                            screenwidth: screenwidth),
-                        PlanetCard(
-                            planetName: '# Planet: 1',
-                            screenHeight: screenHeight,
-                            screenwidth: screenwidth),
-                        PlanetCard(
-                            planetName: '# Planet: 1',
-                            screenHeight: screenHeight,
-                            screenwidth: screenwidth),
-                        PlanetCard(
-                            planetName: '# Planet: 1',
-                            screenHeight: screenHeight,
-                            screenwidth: screenwidth),
                         PlanetCard(
                             planetName: '# Planet: 1',
                             screenHeight: screenHeight,
@@ -132,27 +152,30 @@ class PlanetCard extends StatelessWidget {
   }
 }
 
-class PlanetParameterTile extends StatelessWidget {
-  PlanetParameterTile({required this.parameter});
-  String parameter;
-
+class ExpandedPlanetParameters extends StatelessWidget {
+  ExpandedPlanetParameters({required this.parameter});
+  final String parameter;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          parameter,
-          style: kExplorationButtonTextStyle,
-        ),
-        Slider(
-          value: 0.5,
-          min: 0,
-          max: 1,
-          activeColor: const Color.fromARGB(255, 18, 69, 187),
-          onChanged: (value) {},
-        ),
-      ],
+    return Container(
+      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+      child: Row(
+        children: [
+          Text(
+            parameter,
+            style: const TextStyle(color: Color.fromARGB(255, 228, 228, 228)),
+          ),
+          Expanded(
+            child: Slider(
+              activeColor: const Color.fromARGB(255, 30, 82, 204),
+              value: 0.5,
+              min: 0.0,
+              max: 1.0,
+              onChanged: (value) {},
+            ),
+          )
+        ],
+      ),
     );
   }
 }
