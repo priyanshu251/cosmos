@@ -38,6 +38,7 @@ class PlanetList extends StatelessWidget {
                       collapsedIconColor: Colors.white,
                       children: [
                         ExpandedPlanetParameters(parameter: 'min:'),
+                        ExpandedPlanetParameters(parameter: '(x2):'),
                         ExpandedPlanetParameters(parameter: 'max:'),
                       ],
                     ),
@@ -53,6 +54,7 @@ class PlanetList extends StatelessWidget {
                       collapsedIconColor: Colors.white,
                       children: [
                         ExpandedPlanetParameters(parameter: 'min:'),
+                        ExpandedPlanetParameters(parameter: '(x2):'),
                         ExpandedPlanetParameters(parameter: 'max:'),
                       ],
                     ),
@@ -68,6 +70,7 @@ class PlanetList extends StatelessWidget {
                       collapsedIconColor: Colors.white,
                       children: [
                         ExpandedPlanetParameters(parameter: 'min:'),
+                        ExpandedPlanetParameters(parameter: '(x2):'),
                         ExpandedPlanetParameters(parameter: 'max:'),
                       ],
                     ),
@@ -158,7 +161,7 @@ class ExpandedPlanetParameters extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
         children: [
           Text(

@@ -25,8 +25,12 @@ class PlanetDetails extends StatelessWidget {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: <Color>[
-                          Color.fromARGB(255, 30, 82, 204),
-                          Color.fromARGB(255, 3, 10, 47),
+                          // Color.fromARGB(255, 164, 6, 69),
+                          // Color(0xFF161426),//pink
+                          Color.fromARGB(255, 163, 40, 143),
+                          Color.fromARGB(255, 3, 10, 47), //bck2
+                          // Color.fromARGB(255, 30, 82, 204),
+                          // Color.fromARGB(255, 3, 10, 47), //blue
                         ]),
                     borderRadius: BorderRadius.vertical(
                         bottom: Radius.elliptical(
