@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import '../services/networking.dart';
 
 const apodApiKey = '237go3yWSmfxSH7slPZB2k10kcXmmULSvcc8AHuc';
@@ -12,10 +14,19 @@ class APODModel {
     return apodData;
   }
 
-  // Future<dynamic> getInfiniteAPOD(int count) async {
-  //   NetworkHelper networkHelper = NetworkHelper(
-  //       'https://api.nasa.gov/planetary/apod?api_key=$apodApiKey&count=$count');
-  //   var apodData = await networkHelper.getData();
-  //   return apodData;
-  // }
+  Future<dynamic> getPlanetData(double temp) async {
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://api.api-ninjas.com/v1/planets?min_temperature=$temp',
+        planetApiKey);
+    var planetData = await networkHelper.getPlanetData();
+    return planetData;
+  }
+
+  Future<dynamic> getPlanetDataLength(double temp) async {
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://api.api-ninjas.com/v1/planets?min_temperature=$temp',
+        planetApiKey);
+    var planetDataLength = await networkHelper.getPlanetDataLength();
+    return planetDataLength;
+  }
 }

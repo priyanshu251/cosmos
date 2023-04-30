@@ -2,7 +2,6 @@ import 'package:astro_pro/screens/current_apod_result_page.dart';
 import 'package:astro_pro/services/networking.dart';
 import 'package:flutter/material.dart';
 import 'package:astro_pro/constant.dart';
-import 'package:astro_pro/screens/current_apod_result_page.dart';
 
 class InfiniteAPOD extends StatefulWidget {
   @override
