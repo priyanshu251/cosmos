@@ -1,5 +1,7 @@
 import 'dart:ffi';
 
+import 'package:flutter/material.dart';
+
 import '../services/networking.dart';
 
 const apodApiKey = '237go3yWSmfxSH7slPZB2k10kcXmmULSvcc8AHuc';
@@ -14,19 +16,19 @@ class APODModel {
     return apodData;
   }
 
-  Future<dynamic> getPlanetData(double temp) async {
+  Future<dynamic> getPlanetData(double minTemp, double maxTemp) async {
     NetworkHelper networkHelper = NetworkHelper(
-        'https://api.api-ninjas.com/v1/planets?min_temperature=$temp',
+        'https://api.api-ninjas.com/v1/planets?min_temperature=$minTemp&max_temperature=$maxTemp',
         planetApiKey);
     var planetData = await networkHelper.getPlanetData();
     return planetData;
   }
 
-  Future<dynamic> getPlanetDataLength(double temp) async {
-    NetworkHelper networkHelper = NetworkHelper(
-        'https://api.api-ninjas.com/v1/planets?min_temperature=$temp',
-        planetApiKey);
-    var planetDataLength = await networkHelper.getPlanetDataLength();
-    return planetDataLength;
-  }
+  // Future<dynamic> getPlanetDataLength(double temp) async {
+  //   NetworkHelper networkHelper = NetworkHelper(
+  //       'https://api.api-ninjas.com/v1/planets?min_temperature=$temp',
+  //       planetApiKey);
+  //   var planetDataLength = await networkHelper.getPlanetDataLength();
+  //   return planetDataLength;
+  // }
 }

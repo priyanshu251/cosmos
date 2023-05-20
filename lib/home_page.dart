@@ -196,9 +196,9 @@ class _HomePageState extends State<HomePage> {
       //   flexibleSpace: Container(decoration: kGradientDecoration),
       // ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/bck2.jpeg'),
+            image: AssetImage('images/bck1.jpeg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -211,11 +211,11 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Space\nExploration',
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        fontSize: 71.0,
+                        fontSize: mediaquery.size.width * 0.156,
                         color: Colors.white,
                         fontFamily: "Saturday",
                       ),
@@ -287,7 +287,7 @@ class ExplorationTitle extends StatelessWidget {
         child: Ink(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            gradient: kGradient,
+            gradient: kRedGradient,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Center(

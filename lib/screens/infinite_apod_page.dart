@@ -18,7 +18,7 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
         appBar: AppBar(
           leading: const Icon(Icons.menu),
           title: const Text(
-            ' astro_pro',
+            ' APOD',
             style: TextStyle(fontFamily: "Entanglement", fontSize: 28),
           ),
           centerTitle: true,

@@ -1,11 +1,7 @@
-import 'dart:ffi';
-
 import 'package:astro_pro/constant.dart';
 import 'package:flutter/material.dart';
 
 class PlanetDetails extends StatelessWidget {
-  const PlanetDetails({super.key});
-
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -24,14 +20,7 @@ class PlanetDetails extends StatelessWidget {
                     gradient: const LinearGradient(
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
-                        colors: <Color>[
-                          // Color.fromARGB(255, 164, 6, 69),
-                          // Color(0xFF161426),//pink
-                          Color.fromARGB(255, 163, 40, 143),
-                          Color.fromARGB(255, 3, 10, 47), //bck2
-                          // Color.fromARGB(255, 30, 82, 204),
-                          // Color.fromARGB(255, 3, 10, 47), //blue
-                        ]),
+                        colors: kPlanetConatinerGradient),
                     borderRadius: BorderRadius.vertical(
                         bottom: Radius.elliptical(
                             MediaQuery.of(context).size.width, 350.0)),
@@ -100,6 +89,10 @@ class PlanetDetails extends StatelessWidget {
                     children: const [
                       Text(
                         'Name : Jupiter',
+                        style: kExplorationButtonTextStyle,
+                      ),
+                      Text(
+                        'Mass : very heavy',
                         style: kExplorationButtonTextStyle,
                       ),
                     ],

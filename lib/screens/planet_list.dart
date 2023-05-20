@@ -12,28 +12,35 @@ class PlanetList extends StatefulWidget {
   State<PlanetList> createState() => _PlanetListState();
 }
 
-var planetData;
-var planetDataLength;
-int index = 0;
+dynamic planetData;
 bool hasData = false;
+bool? isPlanetData;
 
 class _PlanetListState extends State<PlanetList> {
-  double? value;
-  void updatePlanetList(double newValue) async {
-    planetData = await APODModel().getPlanetData(newValue);
-    planetDataLength = await APODModel().getPlanetDataLength(newValue);
+  double? minTempValue;
+  double? maxTempValue;
+  void updatePlanetList(double newMinTempValue, double newMaxTempValue) async {
+    if (newMinTempValue > newMaxTempValue) {
+      double swap = newMinTempValue;
+      newMinTempValue = newMaxTempValue;
+      newMaxTempValue = swap;
+    }
+    planetData =
+        await APODModel().getPlanetData(newMinTempValue, newMaxTempValue);
     setState(() {
-      if (index < planetDataLength) {
-        index++;
+      minTempValue = newMinTempValue;
+      maxTempValue = newMaxTempValue;
+      if (planetData != null) {
+        hasData = true;
+      } else {
+        hasData = false;
       }
-      value = newValue;
-      hasData = true;
     });
   }
 
   @override
   void initState() {
-    updatePlanetList(10);
+    updatePlanetList(30, 4050);
     super.initState();
   }
 
@@ -49,7 +56,7 @@ class _PlanetListState extends State<PlanetList> {
             children: <Widget>[
               //This Container will remains constant
               Container(
-                margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
                 padding:
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 decoration: BoxDecoration(
@@ -114,14 +121,16 @@ class _PlanetListState extends State<PlanetList> {
                         ),
                         ExpandedPlanetParameters(
                           parameter: 'min:',
-                          onPress: (newValue) {
-                            updatePlanetList(newValue * 100);
+                          onPress: (newMinTempValue) {
+                            updatePlanetList(
+                                newMinTempValue * 100, maxTempValue!);
                           },
                         ),
                         ExpandedPlanetParameters(
                           parameter: 'max:',
-                          onPress: (newValue) {
-                            updatePlanetList(newValue * 100);
+                          onPress: (newMaxTempValue) {
+                            updatePlanetList(
+                                minTempValue!, newMaxTempValue * 100);
                           },
                         ),
                       ],
@@ -132,12 +141,20 @@ class _PlanetListState extends State<PlanetList> {
               Expanded(
                 child: hasData
                     ? ListView.builder(
-                        itemCount: planetDataLength,
+                        itemCount: (planetData as List).length,
                         itemBuilder: (context, index) {
-                          return PlanetCard(
-                            screenHeight: screenHeight,
-                            screenwidth: screenwidth,
-                            planetName: planetData[index]['name'],
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PlanetDetails()));
+                            },
+                            child: PlanetCard(
+                              screenHeight: screenHeight,
+                              screenwidth: screenwidth,
+                              planetName: planetData[index]['name'],
+                            ),
                           );
                         },
                       )
@@ -153,12 +170,20 @@ class _PlanetListState extends State<PlanetList> {
   }
 }
 
-class ExpandedPlanetParameters extends StatelessWidget {
+class ExpandedPlanetParameters extends StatefulWidget {
   ExpandedPlanetParameters({required this.parameter, required this.onPress});
   final String parameter;
   final void Function(double) onPress;
+
+  @override
+  State<ExpandedPlanetParameters> createState() =>
+      _ExpandedPlanetParametersState();
+}
+
+class _ExpandedPlanetParametersState extends State<ExpandedPlanetParameters> {
   APODModel apodModel = APODModel();
 
+  double sliderValue = 20;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -166,17 +191,29 @@ class ExpandedPlanetParameters extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            parameter,
+            widget.parameter,
             style: const TextStyle(color: Color.fromARGB(255, 228, 228, 228)),
           ),
           Expanded(
             child: Slider(
-                activeColor: const Color.fromARGB(255, 39, 98, 236),
-                value: 30,
-                min: 0.3,
-                max: 40.2,
-                onChanged: onPress),
-          )
+              activeColor: const Color.fromARGB(255, 39, 98, 236),
+              value: sliderValue,
+              min: 0.39,
+              max: 40.5,
+              // label: sliderValue.toStringAsFixed(1),
+              onChanged: (newValue) {
+                setState(() {
+                  sliderValue = newValue;
+                });
+                widget.onPress(
+                    newValue); //why even after raeching at minimum and maximum value the slider keeps updating the value that to the same number
+              },
+            ),
+          ),
+          Text(
+            sliderValue.toStringAsFixed(1), // Display slider value
+            style: const TextStyle(color: Colors.white),
+          ),
         ],
       ),
     );

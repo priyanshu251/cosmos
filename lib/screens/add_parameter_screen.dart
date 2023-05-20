@@ -148,7 +148,7 @@ class GetAPOD extends StatelessWidget {
             child: Ink(
               padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 15),
               decoration: BoxDecoration(
-                gradient: kGradient,
+                gradient: kRedGradient,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
