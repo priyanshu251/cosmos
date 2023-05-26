@@ -1,9 +1,12 @@
-// 0)planet names are static     1)fix const item count of list builder     2)only min temp parameter is working
+//1)initial planet does not match initial slider values  2)all bool null
+//3)radius parameter not working accurately   4)add pop-up to show slider value
+//5) somewhere i am assinging wrong value of minrad iam assinging it to newmaxrad
 
 import 'package:astro_pro/constant.dart';
 import 'package:astro_pro/services/api_data.dart';
 import 'package:flutter/material.dart';
 import 'planet_details.dart';
+import 'dart:math';
 
 class PlanetList extends StatefulWidget {
   const PlanetList({super.key});
@@ -12,22 +15,67 @@ class PlanetList extends StatefulWidget {
   State<PlanetList> createState() => _PlanetListState();
 }
 
+String? planetName;
 dynamic planetData;
 bool hasData = false;
 bool? isPlanetData;
 
 class _PlanetListState extends State<PlanetList> {
+  APODModel apodModel = APODModel();
+
+  bool massSwitchValue = true;
+  bool radSwitchValue = true;
+  bool tempSwitchValue = true;
+  double? minMassValue;
+  double? maxMassValue;
+  double? minRadValue;
+  double? maxRadValue;
   double? minTempValue;
   double? maxTempValue;
-  void updatePlanetList(double newMinTempValue, double newMaxTempValue) async {
+
+  void updatePlanetList(
+      bool newMassSwitchValue,
+      bool newRadSwitchValue,
+      bool newTempSwitchValue,
+      double newMinMassValue,
+      double newMaxMassValue,
+      double newMinRadValue,
+      double newMaxRadValue,
+      double newMinTempValue,
+      double newMaxTempValue) async {
+    if (newMinMassValue > newMaxMassValue) {
+      double swap = newMinMassValue;
+      newMinMassValue = newMaxMassValue;
+      newMaxMassValue = swap;
+    }
+    if (newMinRadValue > newMaxRadValue) {
+      double swap = newMinRadValue;
+      newMinRadValue = newMaxRadValue;
+      newMaxRadValue = swap;
+    }
     if (newMinTempValue > newMaxTempValue) {
       double swap = newMinTempValue;
       newMinTempValue = newMaxTempValue;
       newMaxTempValue = swap;
     }
-    planetData =
-        await APODModel().getPlanetData(newMinTempValue, newMaxTempValue);
+    planetData = await APODModel().getPlanetData(
+        newMassSwitchValue,
+        newRadSwitchValue,
+        newTempSwitchValue,
+        newMinMassValue,
+        newMaxMassValue,
+        newMinRadValue,
+        newMaxRadValue,
+        newMinTempValue,
+        newMaxTempValue);
     setState(() {
+      massSwitchValue = newMassSwitchValue;
+      radSwitchValue = newRadSwitchValue;
+      tempSwitchValue = newTempSwitchValue;
+      minMassValue = newMinMassValue;
+      maxMassValue = newMaxMassValue;
+      minRadValue = newMinRadValue;
+      maxRadValue = newMaxRadValue;
       minTempValue = newMinTempValue;
       maxTempValue = newMaxTempValue;
       if (planetData != null) {
@@ -40,7 +88,7 @@ class _PlanetListState extends State<PlanetList> {
 
   @override
   void initState() {
-    updatePlanetList(30, 4050);
+    updatePlanetList(true, true, true, 0.000007, 60, 0.0009, 7, 39, 4050);
     super.initState();
   }
 
@@ -51,119 +99,315 @@ class _PlanetListState extends State<PlanetList> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(24, 25, 32, 1),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              //This Container will remains constant
-              Container(
-                margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Column(
-                  children: [
-                    // ExpansionTile(
-                    //   tilePadding: const EdgeInsets.symmetric(horizontal: 10),
-                    //   title: const Text(
-                    //     'Mass',
-                    //     style: TextStyle(fontSize: 20),
-                    //   ),
-                    //   textColor: const Color.fromARGB(255, 30, 82, 204),
-                    //   collapsedTextColor: Colors.white,
-                    //   iconColor: Colors.white,
-                    //   collapsedIconColor: Colors.white,
-                    //   children: [
-                    //     ExpandedPlanetParameters(
-                    //         parameter: 'min:', onPress: updatePlanetList()),
-                    //     ExpandedPlanetParameters(
-                    //         parameter: '(x2):', onPress: updatePlanetList()),
-                    //     ExpandedPlanetParameters(
-                    //         parameter: 'max:', onPress: updatePlanetList()),
-                    //   ],
-                    // ),
-                    // ExpansionTile(
-                    //   tilePadding: const EdgeInsets.symmetric(horizontal: 10),
-                    //   title: const Text(
-                    //     'Radius',
-                    //     style: TextStyle(fontSize: 20),
-                    //   ),
-                    //   textColor: const Color.fromARGB(255, 30, 82, 204),
-                    //   collapsedTextColor: Colors.white,
-                    //   iconColor: Colors.white,
-                    //   collapsedIconColor: Colors.white,
-                    //   children: [
-                    //     ExpandedPlanetParameters(
-                    //         parameter: 'min:', onPress: updatePlanetList()),
-                    //     ExpandedPlanetParameters(
-                    //         parameter: '(x2):', onPress: updatePlanetList()),
-                    //     ExpandedPlanetParameters(
-                    //         parameter: 'max:', onPress: updatePlanetList()),
-                    //   ],
-                    // ),
-                    ExpansionTile(
-                      tilePadding: const EdgeInsets.symmetric(horizontal: 10),
-                      title: const Text(
-                        'Temperature',
-                        style: TextStyle(fontSize: 20),
+        body: Column(
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 10, 16, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(17, 5, 17, 0),
+                      // width: screenwidth * 0.8,
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(37, 42, 52, 1)
+                            .withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(19),
                       ),
-                      textColor: const Color.fromARGB(255, 39, 98, 236),
-                      collapsedTextColor: Colors.white,
-                      iconColor: Colors.white,
-                      collapsedIconColor: Colors.white,
+                      child: TextField(
+                        style: const TextStyle(color: Colors.white),
+                        decoration: kSearchTextFeild.copyWith(
+                          hintText: 'Search planet by name',
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: Color.fromARGB(255, 39, 98, 236),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          planetName = value;
+                        },
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                      onTap: () async {
+                        var planetDataByName =
+                            await apodModel.planetDataByName(planetName!);
+                        if (!mounted) return;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PlanetDetails(
+                                planetDetails: planetDataByName[0]),
+                          ),
+                        );
+                      },
+                      child: const Icon(
+                        Icons.arrow_forward,
+                        size: 23,
+                        color: Colors.white,
+                      ))
+                ],
+              ),
+            ),
+            //This Container will remains constant
+            Container(
+              margin: const EdgeInsets.fromLTRB(16, 10, 16, 20),
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Column(
+                children: [
+                  ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          '(x100 kelvin)',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 228, 228, 228)),
+                          'Mass',
+                          style: TextStyle(fontSize: 20),
                         ),
-                        ExpandedPlanetParameters(
-                          parameter: 'min:',
-                          onPress: (newMinTempValue) {
+                        Switch(
+                          value: massSwitchValue,
+                          activeColor: const Color.fromARGB(255, 39, 98, 236),
+                          onChanged: (newMassSwitchValue) {
+                            setState(() {
+                              massSwitchValue = newMassSwitchValue;
+                            });
                             updatePlanetList(
-                                newMinTempValue * 100, maxTempValue!);
-                          },
-                        ),
-                        ExpandedPlanetParameters(
-                          parameter: 'max:',
-                          onPress: (newMaxTempValue) {
-                            updatePlanetList(
-                                minTempValue!, newMaxTempValue * 100);
+                                newMassSwitchValue,
+                                radSwitchValue,
+                                tempSwitchValue,
+                                minMassValue!,
+                                maxMassValue!,
+                                minRadValue!,
+                                maxRadValue!,
+                                minTempValue!,
+                                maxTempValue!);
                           },
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: hasData
-                    ? ListView.builder(
-                        itemCount: (planetData as List).length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PlanetDetails()));
-                            },
-                            child: PlanetCard(
-                              screenHeight: screenHeight,
-                              screenwidth: screenwidth,
-                              planetName: planetData[index]['name'],
-                            ),
-                          );
+                    textColor: const Color.fromARGB(255, 39, 98, 236),
+                    collapsedTextColor: Colors.white,
+                    iconColor: Colors.white,
+                    collapsedIconColor: Colors.white,
+                    children: [
+                      ExpandedPlanetParameters(
+                        parameter: 'min:',
+                        initialSliderValue: -7.5,
+                        minSliderValue: -11.8839,
+                        maxSliderValue: 4.0943,
+                        onPress: (newMinmassValue) {
+                          updatePlanetList(
+                              massSwitchValue,
+                              radSwitchValue,
+                              tempSwitchValue,
+                              exp(newMinmassValue),
+                              maxMassValue!,
+                              minRadValue!,
+                              maxRadValue!,
+                              minTempValue!,
+                              maxTempValue!);
                         },
-                      )
-                    : const Center(
-                        child: CircularProgressIndicator(),
                       ),
+                      ExpandedPlanetParameters(
+                        parameter: 'max:',
+                        initialSliderValue: -7.5,
+                        minSliderValue: -11.8839,
+                        maxSliderValue: 4.1,
+                        onPress: (newMaxMassValue) {
+                          updatePlanetList(
+                              massSwitchValue,
+                              radSwitchValue,
+                              tempSwitchValue,
+                              minMassValue!,
+                              exp(newMaxMassValue),
+                              minRadValue!,
+                              maxRadValue!,
+                              minTempValue!,
+                              maxTempValue!);
+                        },
+                      ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Radius',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Switch(
+                          value: radSwitchValue,
+                          activeColor: const Color.fromARGB(255, 39, 98, 236),
+                          onChanged: (newRadSwitchValue) {
+                            setState(() {
+                              radSwitchValue = newRadSwitchValue;
+                            });
+                            updatePlanetList(
+                                massSwitchValue,
+                                newRadSwitchValue,
+                                tempSwitchValue,
+                                minMassValue!,
+                                maxMassValue!,
+                                minRadValue!,
+                                maxRadValue!,
+                                minTempValue!,
+                                maxTempValue!);
+                          },
+                        ),
+                      ],
+                    ),
+                    textColor: const Color.fromARGB(255, 39, 98, 236),
+                    collapsedTextColor: Colors.white,
+                    iconColor: Colors.white,
+                    collapsedIconColor: Colors.white,
+                    children: [
+                      ExpandedPlanetParameters(
+                        parameter: 'min:',
+                        initialSliderValue: -5,
+                        minSliderValue: -7.0131,
+                        maxSliderValue: 1.9459,
+                        onPress: (newMinRadValue) {
+                          updatePlanetList(
+                              massSwitchValue,
+                              radSwitchValue,
+                              tempSwitchValue,
+                              minMassValue!,
+                              maxMassValue!,
+                              exp(newMinRadValue),
+                              maxRadValue!,
+                              minTempValue!,
+                              maxTempValue!);
+                        },
+                      ),
+                      ExpandedPlanetParameters(
+                        parameter: 'max:',
+                        initialSliderValue: -5,
+                        minSliderValue: -7.0131,
+                        maxSliderValue: 1.9459,
+                        onPress: (newMaxRadValue) {
+                          updatePlanetList(
+                              massSwitchValue,
+                              radSwitchValue,
+                              tempSwitchValue,
+                              minMassValue!,
+                              maxMassValue!,
+                              minRadValue!,
+                              exp(newMaxRadValue),
+                              minTempValue!,
+                              maxTempValue!);
+                        },
+                      ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Temperature',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Switch(
+                          value: tempSwitchValue,
+                          activeColor: const Color.fromARGB(255, 39, 98, 236),
+                          onChanged: (newTempSwitchValue) {
+                            setState(() {
+                              tempSwitchValue = newTempSwitchValue;
+                            });
+                            updatePlanetList(
+                                massSwitchValue,
+                                radSwitchValue,
+                                newTempSwitchValue,
+                                minMassValue!,
+                                maxMassValue!,
+                                minRadValue!,
+                                maxRadValue!,
+                                minTempValue!,
+                                maxTempValue!);
+                          },
+                        ),
+                      ],
+                    ),
+                    textColor: const Color.fromARGB(255, 39, 98, 236),
+                    collapsedTextColor: Colors.white,
+                    iconColor: Colors.white,
+                    collapsedIconColor: Colors.white,
+                    children: [
+                      ExpandedPlanetParameters(
+                        parameter: 'min:',
+                        initialSliderValue: 5.5,
+                        minSliderValue: 3.6376,
+                        maxSliderValue: 8.3067,
+                        onPress: (newMinTempValue) {
+                          updatePlanetList(
+                              massSwitchValue,
+                              radSwitchValue,
+                              tempSwitchValue,
+                              minMassValue!,
+                              maxMassValue!,
+                              minRadValue!,
+                              maxRadValue!,
+                              exp(newMinTempValue),
+                              maxTempValue!);
+                        },
+                      ),
+                      ExpandedPlanetParameters(
+                        parameter: 'max:',
+                        initialSliderValue: 5.5,
+                        minSliderValue: 3.6376,
+                        maxSliderValue: 8.3067,
+                        onPress: (newMaxTempValue) {
+                          updatePlanetList(
+                              massSwitchValue,
+                              radSwitchValue,
+                              tempSwitchValue,
+                              minMassValue!,
+                              maxMassValue!,
+                              minRadValue!,
+                              maxRadValue!,
+                              minTempValue!,
+                              exp(newMaxTempValue));
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            const Text(
+              'List Of Planets With Matching Statistics',
+              style: TextStyle(
+                  color: Color.fromARGB(255, 189, 187, 187),
+                  fontSize: 19.6,
+                  fontWeight: FontWeight.w400),
+            ),
+            Expanded(
+              child: hasData
+                  ? ListView.builder(
+                      itemCount: (planetData as List).length,
+                      itemBuilder: (context, index) {
+                        return PlanetCard(
+                          screenHeight: screenHeight,
+                          screenwidth: screenwidth,
+                          planetName: planetData[index]['name'],
+                          index: index,
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+            ),
+          ],
         ),
       ),
     );
@@ -171,8 +415,18 @@ class _PlanetListState extends State<PlanetList> {
 }
 
 class ExpandedPlanetParameters extends StatefulWidget {
-  ExpandedPlanetParameters({required this.parameter, required this.onPress});
+  ExpandedPlanetParameters({
+    required this.parameter,
+    required this.initialSliderValue,
+    required this.minSliderValue,
+    required this.maxSliderValue,
+    required this.onPress,
+  });
+
   final String parameter;
+  double initialSliderValue;
+  final double minSliderValue;
+  final double maxSliderValue;
   final void Function(double) onPress;
 
   @override
@@ -182,8 +436,14 @@ class ExpandedPlanetParameters extends StatefulWidget {
 
 class _ExpandedPlanetParametersState extends State<ExpandedPlanetParameters> {
   APODModel apodModel = APODModel();
+  double? sliderValue;
 
-  double sliderValue = 20;
+  @override
+  void initState() {
+    super.initState();
+    sliderValue = widget.initialSliderValue;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -197,22 +457,26 @@ class _ExpandedPlanetParametersState extends State<ExpandedPlanetParameters> {
           Expanded(
             child: Slider(
               activeColor: const Color.fromARGB(255, 39, 98, 236),
-              value: sliderValue,
-              min: 0.39,
-              max: 40.5,
-              // label: sliderValue.toStringAsFixed(1),
-              onChanged: (newValue) {
+              value: sliderValue!,
+              min: widget.minSliderValue,
+              max: widget.maxSliderValue,
+              onChanged: (value) {
+                setState(() {
+                  sliderValue = value;
+                });
+              },
+              onChangeEnd: (newValue) {
                 setState(() {
                   sliderValue = newValue;
                 });
                 widget.onPress(
-                    newValue); //why even after raeching at minimum and maximum value the slider keeps updating the value that to the same number
+                    newValue); //why even after reaching at minimum and maximum value the slider keeps updating the value that to the same number
               },
             ),
           ),
           Text(
-            sliderValue.toStringAsFixed(1), // Display slider value
-            style: const TextStyle(color: Colors.white),
+            exp(sliderValue!).toStringAsFixed(6),
+            style: const TextStyle(color: Color.fromARGB(255, 203, 202, 202)),
           ),
         ],
       ),
@@ -224,21 +488,27 @@ class PlanetCard extends StatelessWidget {
   PlanetCard(
       {required this.screenHeight,
       required this.screenwidth,
-      required this.planetName});
+      required this.planetName,
+      required this.index});
 
   final double screenHeight;
   final double screenwidth;
   final String planetName;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => PlanetDetails())));
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) => PlanetDetails(
+                      planetDetails: planetData[index],
+                    ))));
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         height: screenHeight * 0.1,
         width: screenwidth * 1,
@@ -246,9 +516,11 @@ class PlanetCard extends StatelessWidget {
           color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
           borderRadius: BorderRadius.circular(30),
         ),
-        child: Text(
-          planetName,
-          style: kExplorationButtonTextStyle,
+        child: Center(
+          child: Text(
+            planetName,
+            style: kExplorationButtonTextStyle,
+          ),
         ),
       ),
     );

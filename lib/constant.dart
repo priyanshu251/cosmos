@@ -5,6 +5,36 @@ const kExplorationButtonTextStyle = TextStyle(
   color: Colors.white,
 );
 
+const kPlanetDetailLeftTextStyle = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w300,
+  color: Colors.white,
+);
+
+const kSearchTextFeild = InputDecoration(
+  hintStyle: TextStyle(
+    color: Color.fromARGB(255, 114, 113, 113),
+  ),
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(19.0)),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Color.fromARGB(255, 39, 98, 236), width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(19.0)),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Color.fromARGB(255, 39, 98, 236), width: 2.0),
+    borderRadius: BorderRadius.all(Radius.circular(19.0)),
+  ),
+);
+
+const kPlanetDetailRightTextStyle = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w400,
+  color: Color.fromARGB(255, 237, 22, 108),
+);
+
 const kGradientDecoration = BoxDecoration(
   gradient: LinearGradient(
       begin: Alignment.centerLeft,

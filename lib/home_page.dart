@@ -166,7 +166,7 @@ import 'package:astro_pro/screens/add_parameter_screen.dart';
 import 'package:astro_pro/screens/planet_list.dart';
 import 'package:flutter/material.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
-// import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -176,6 +176,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late AssetsAudioPlayer assetsAudioPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    AssetsAudioPlayer.newPlayer().open(Audio("audio/intersteller1.mp3"),
+        autoStart: true, loopMode: LoopMode.single);
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    assetsAudioPlayer.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var mediaquery = MediaQuery.of(context);

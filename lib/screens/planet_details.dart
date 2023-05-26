@@ -2,6 +2,9 @@ import 'package:astro_pro/constant.dart';
 import 'package:flutter/material.dart';
 
 class PlanetDetails extends StatelessWidget {
+  PlanetDetails({this.planetDetails});
+  dynamic planetDetails;
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -53,7 +56,10 @@ class PlanetDetails extends StatelessWidget {
                   top: screenHeight * 0.11,
                   child: const Text(
                     'Planet',
-                    style: TextStyle(fontSize: 30, color: Colors.white),
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w200),
                   ),
                 ),
                 Positioned(
@@ -66,9 +72,12 @@ class PlanetDetails extends StatelessWidget {
                 ),
                 Positioned(
                   top: screenHeight * 0.17,
-                  child: const Text(
-                    'Jupiter',
-                    style: TextStyle(fontSize: 50, color: Colors.white),
+                  child: Text(
+                    planetDetails['name'],
+                    style: const TextStyle(
+                        fontSize: 40,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300),
                   ),
                 ),
               ],
@@ -86,15 +95,21 @@ class PlanetDetails extends StatelessWidget {
                 height: screenHeight * 0.22,
                 child: SingleChildScrollView(
                   child: Column(
-                    children: const [
-                      Text(
-                        'Name : Jupiter',
-                        style: kExplorationButtonTextStyle,
-                      ),
-                      Text(
-                        'Mass : very heavy',
-                        style: kExplorationButtonTextStyle,
-                      ),
+                    children: [
+                      PlanetDetailPanel(
+                          'Mass', planetDetails['mass'].toString()),
+                      PlanetDetailPanel(
+                          'Radius', planetDetails['radius'].toString()),
+                      PlanetDetailPanel(
+                          'Period', planetDetails['period'].toString()),
+                      PlanetDetailPanel('Semi Major Axis',
+                          planetDetails['semi_major_axis'].toString()),
+                      PlanetDetailPanel('Temperatue',
+                          planetDetails['temperature'].toString()),
+                      PlanetDetailPanel('Distance Light Year',
+                          planetDetails['distance_light_year'].toString()),
+                      PlanetDetailPanel('Hot Star Mass',
+                          planetDetails['host_Star_mass'].toString())
                     ],
                   ),
                 ),
@@ -105,15 +120,26 @@ class PlanetDetails extends StatelessWidget {
       ),
     );
   }
-}
 
-//to curve appBar :
-// appBar: AppBar(
-        //   title: const Text('Anything'),
-        //   backgroundColor: Colors.blue,
-        //   shape: const RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.vertical(
-        //       bottom: Radius.circular(30),
-        //     ),
-        //   ),
-        // ),
+  Row PlanetDetailPanel(String detailName, String detailValue) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(
+          detailName,
+          style: kPlanetDetailLeftTextStyle,
+          textAlign: TextAlign.left,
+        ),
+        const Text(
+          ':',
+          style: kPlanetDetailLeftTextStyle,
+        ),
+        Text(
+          detailValue,
+          style: kPlanetDetailRightTextStyle,
+          textAlign: TextAlign.right,
+        ),
+      ],
+    );
+  }
+}
