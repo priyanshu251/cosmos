@@ -1,9 +1,9 @@
 import 'package:astro_pro/constant.dart';
 import 'package:flutter/material.dart';
 
-class PlanetDetails extends StatelessWidget {
-  PlanetDetails({this.planetDetails, this.index});
-  dynamic planetDetails;
+class StarDetails extends StatelessWidget {
+  StarDetails({this.starDetails, this.index});
+  dynamic starDetails;
   int? index;
 
   @override
@@ -56,7 +56,7 @@ class PlanetDetails extends StatelessWidget {
                 Positioned(
                   top: screenHeight * 0.11,
                   child: const Text(
-                    'Planet',
+                    'Star',
                     style: TextStyle(
                         fontSize: 30,
                         color: Colors.white,
@@ -74,7 +74,7 @@ class PlanetDetails extends StatelessWidget {
                 Positioned(
                   top: screenHeight * 0.17,
                   child: Text(
-                    " ${planetDetails['name']}",
+                    starDetails['name'],
                     style: TextStyle(
                         fontSize: screenHeight * 0.041,
                         color: Colors.white,
@@ -98,36 +98,33 @@ class PlanetDetails extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    PlanetDetailPanel(
-                        'Mass (Jupiter)',
-                        planetDetails['mass'].toString(),
+                    StarDetailPanel(
+                        'Constellation',
+                        starDetails['constellation'],
                         screenWidth,
                         screenHeight),
-                    PlanetDetailPanel(
-                        'Radius (Jupiter)',
-                        planetDetails['radius'].toString(),
+                    // StarDetailPanel(
+                    //     'Right Ascension', starDetails['right_ascension']),
+                    StarDetailPanel('Declination', starDetails['declination'],
+                        screenWidth, screenHeight),
+                    StarDetailPanel(
+                        'Apparent Mag',
+                        starDetails['apparent_magnitude'],
                         screenWidth,
                         screenHeight),
-                    PlanetDetailPanel(
-                        'Period (Earth Days)',
-                        planetDetails['period'].toString(),
+                    StarDetailPanel(
+                        'Absolute Mag',
+                        starDetails['absolute_magnitude'],
                         screenWidth,
                         screenHeight),
-                    // PlanetDetailPanel('Semi Major Axis',
-                    //     planetDetails['semi_major_axis'].toString()),
-                    PlanetDetailPanel(
-                        'Temperatue (Kelvin)',
-                        planetDetails['temperature'].toString(),
-                        screenWidth,
-                        screenHeight),
-                    PlanetDetailPanel(
+                    StarDetailPanel(
                         'Distance Light Year',
-                        planetDetails['distance_light_year'].toString(),
+                        starDetails['distance_light_year'],
                         screenWidth,
                         screenHeight),
-                    PlanetDetailPanel(
-                        'Hot Star Mass',
-                        planetDetails['host_Star_mass'].toString(),
+                    StarDetailPanel(
+                        'Spectral Class',
+                        starDetails['spectral_class'],
                         screenWidth,
                         screenHeight)
                   ],
@@ -140,8 +137,8 @@ class PlanetDetails extends StatelessWidget {
     );
   }
 
-  Row PlanetDetailPanel(String detailName, String detailValue,
-      double screenWidth, double screenHeight) {
+  Row StarDetailPanel(String detailName, String detailValue, double screenWidth,
+      double screenHeight) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

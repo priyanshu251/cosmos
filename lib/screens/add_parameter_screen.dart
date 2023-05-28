@@ -20,36 +20,37 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
       color: const Color.fromARGB(255, 0, 0, 0),
       child: Container(
         padding: const EdgeInsets.fromLTRB(30, 12, 30, 30),
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 230, 228, 228),
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           ),
         ),
         child: Column(
           children: [
-            const Text(
+            Text(
               'Astronomical Picture Of The Day',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.black,
+              style: kExplorationButtonTextStyle.copyWith(
+                fontWeight: FontWeight.w100,
+                color: const Color.fromARGB(255, 217, 217, 217),
               ),
             ),
             const Divider(
-              color: Color.fromARGB(255, 69, 69, 69),
+              color: Color.fromARGB(255, 160, 160, 160),
               height: 13,
               thickness: 1,
               indent: 1,
               endIndent: 1,
             ),
             const SizedBox(
-              height: 20,
+              height: 20, //media querry
             ),
             GetAPOD(
               parameter: Text(
                 DateFormat("yyyy-MM-dd").format(DateTime.now()),
+                style: kExplorationButtonTextStyle.copyWith(fontSize: 17),
               ),
               onPress: () async {
                 var apodData = await apodModel.getCurrentAPOD(
@@ -81,15 +82,13 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
                     });
                   }
                 },
-                icon: const Icon(Icons.calendar_today),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: const Color.fromARGB(255, 18, 69, 187),
-                ),
                 label: Text(
                   '${date.year}-${date.month}-${date.day}',
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 70, 68, 68),
-                  ),
+                  style: kExplorationButtonTextStyle.copyWith(fontSize: 17),
+                ),
+                icon: const Icon(Icons.calendar_today),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color.fromARGB(255, 87, 75, 151), //red
                 ),
               ),
               onPress: () async {
@@ -107,7 +106,10 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
               },
             ),
             GetAPOD(
-              parameter: const Text('Random'),
+              parameter: Text(
+                'Random',
+                style: kExplorationButtonTextStyle.copyWith(fontSize: 17),
+              ),
               onPress: () {
                 Navigator.push(
                   context,
@@ -127,7 +129,6 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
 class GetAPOD extends StatelessWidget {
   GetAPOD({this.parameter, this.onPress});
   final Widget? parameter;
-
   final void Function()? onPress;
 
   @override
@@ -153,7 +154,8 @@ class GetAPOD extends StatelessWidget {
               ),
               child: Text(
                 'Get',
-                style: kExplorationButtonTextStyle.copyWith(fontSize: 15),
+                style: kExplorationButtonTextStyle.copyWith(
+                    fontSize: 15, fontFamily: "Playfair"),
               ),
             ),
           ),

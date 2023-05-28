@@ -92,6 +92,15 @@ flutter:
     - family: SpaceCrusaders
       fonts:
         - asset: fonts/SpaceCrusaders-x3DP0.ttf
+    - family: Playfair
+      fonts:
+        - asset: fonts/Playfair-VariableFont_opsz,wdth,wght.ttf
+    - family: PTSansNarrow
+      fonts:
+        - asset: fonts/PTSansNarrow-Regular.ttf
+    - family: PTSerif-Regular
+      fonts:
+        - asset: fonts/PTSerif-Regular.ttf            
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

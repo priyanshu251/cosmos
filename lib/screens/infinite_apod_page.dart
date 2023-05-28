@@ -1,7 +1,8 @@
+import 'package:astro_pro/constant.dart';
 import 'package:astro_pro/screens/current_apod_result_page.dart';
 import 'package:astro_pro/services/networking.dart';
 import 'package:flutter/material.dart';
-import 'package:astro_pro/constant.dart';
+import 'package:flutter/scheduler.dart';
 
 class InfiniteAPOD extends StatefulWidget {
   @override
@@ -13,26 +14,42 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(
-            24, 25, 32, 1), //const Color.fromRGBO(24, 25, 32, 1)
-        appBar: AppBar(
-          leading: const Icon(Icons.menu),
-          title: const Text(
-            ' APOD',
-            style: TextStyle(fontFamily: "Entanglement", fontSize: 28),
-          ),
-          centerTitle: true,
-          shadowColor: Colors.black,
-          actions: const [Icon(Icons.arrow_back)],
-          flexibleSpace: Container(
-            decoration: kGradientDecoration,
-          ),
-        ),
-        body: ListView.builder(
-          itemBuilder: (context, index) {
-            return APODRandomImage();
-          },
-          cacheExtent: 3000,
+        backgroundColor: const Color.fromRGBO(24, 25, 32, 1),
+        body: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    ' Astronomical Pictures:',
+                    style: kExplorationButtonTextStyle.copyWith(fontSize: 27),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back,
+                      size: 27,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return APODRandomImage(
+                    tag: index.toString(),
+                  );
+                },
+                cacheExtent: 3000,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -40,7 +57,8 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
 }
 
 class APODRandomImage extends StatefulWidget {
-  APODRandomImage();
+  APODRandomImage({required this.tag});
+  String tag;
 
   @override
   State<APODRandomImage> createState() => _APODRandomImageState();
@@ -78,40 +96,68 @@ class _APODRandomImageState extends State<APODRandomImage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Container(
-        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+        margin: const EdgeInsets.fromLTRB(15, 0, 15, 15),
         padding: const EdgeInsets.all(0),
         height: screenHeight * 0.3,
-        width: screenWidth * 0.8, //remember this
+        width: screenWidth * 0.8,
         child: hasData
-            ? MaterialButton(
-                onPressed: () {
+            ? GestureDetector(
+                onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
                               CurrentAPODResultPage(apodData: data)));
                 },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.all(0),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  child: Container(
-                    height: screenHeight * 0.3,
-                    width: screenWidth * 0.8,
-                    margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(0),
+                child: Stack(children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: InteractiveViewer(
                       minScale: 0.8,
                       maxScale: 2.5,
-                      child: Image(
-                        image: NetworkImage(data['url']),
-                        fit: BoxFit.cover,
+                      child: Hero(
+                        tag: widget.tag,
+                        child: Image(
+                          image: NetworkImage(data['url']),
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(10, 20, 10, 8),
+                      width: screenWidth,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        color: Colors.black,
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.black.withOpacity(0.9),
+                            Colors.black.withOpacity(0.6),
+                            Colors.black.withOpacity(0.5),
+                            Colors.black.withOpacity(0.2),
+                            Colors.black.withOpacity(0),
+                          ],
+                        ),
+                      ),
+                      child: Text(
+                        '${data['title']} >',
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 19,
+                            fontFamily: "PTSansNarrow"),
+                      ),
+                    ),
+                  ),
+                ]),
               )
             : const Center(
                 child: CircularProgressIndicator(),

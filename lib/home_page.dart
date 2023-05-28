@@ -164,6 +164,7 @@
 import 'package:astro_pro/constant.dart';
 import 'package:astro_pro/screens/add_parameter_screen.dart';
 import 'package:astro_pro/screens/planet_list.dart';
+import 'package:astro_pro/screens/star_list.dart';
 import 'package:flutter/material.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -237,15 +238,18 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     SizedBox(
-                      height: mediaquery.size.height * 0.05,
+                      height: mediaquery.size.height * 0.02,
                     ),
-                    const Text(
+                    Text(
                       'Space exploration is the use of astronomy and space technology to explore outer space. While the exploration of space is carried out mainly by astronomers with telescopes, its physical exploration is conducted both by uncrewed robotic space probes and human spaceflight.',
-                      style: TextStyle(color: Colors.white, fontSize: 17),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: mediaquery.size.height * 0.023,
+                          fontFamily: "Playfair"),
                       textAlign: TextAlign.justify,
                     ),
                     SizedBox(
-                      height: mediaquery.size.height * 0.15,
+                      height: mediaquery.size.height * 0.07,
                     ),
                     ExplorationTitle(
                       title: 'APOD',
@@ -273,8 +277,13 @@ class _HomePageState extends State<HomePage> {
                                   builder: ((context) => PlanetList())));
                         }),
                     ExplorationTitle(
-                      title: 'Stars',
-                    ),
+                        title: 'Stars',
+                        onPress: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => StarList())));
+                        }),
                   ],
                 ),
               )

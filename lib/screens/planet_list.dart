@@ -1,4 +1,4 @@
-//1)initial planet does not match initial slider values  2)all bool null
+//1)initial planet does not match initial slider values
 //3)radius parameter not working accurately   4)add pop-up to show slider value
 //5) somewhere i am assinging wrong value of minrad iam assinging it to newmaxrad
 
@@ -121,7 +121,7 @@ class _PlanetListState extends State<PlanetList> {
                           hintText: 'Search planet by name',
                           prefixIcon: const Icon(
                             Icons.search,
-                            color: Color.fromARGB(255, 39, 98, 236),
+                            color: Color.fromARGB(255, 87, 75, 151),
                           ),
                         ),
                         onChanged: (value) {
@@ -139,7 +139,9 @@ class _PlanetListState extends State<PlanetList> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => PlanetDetails(
-                                planetDetails: planetDataByName[0]),
+                              planetDetails: planetDataByName[0],
+                              index: 1,
+                            ),
                           ),
                         );
                       },
@@ -153,7 +155,7 @@ class _PlanetListState extends State<PlanetList> {
             ),
             //This Container will remains constant
             Container(
-              margin: const EdgeInsets.fromLTRB(16, 10, 16, 20),
+              margin: const EdgeInsets.fromLTRB(16, 10, 16, 15),
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
@@ -163,16 +165,17 @@ class _PlanetListState extends State<PlanetList> {
                 children: [
                   ExpansionTile(
                     tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+                    maintainState: true,
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
                           'Mass',
-                          style: TextStyle(fontSize: 20),
+                          style: kExplorationButtonTextStyle,
                         ),
                         Switch(
                           value: massSwitchValue,
-                          activeColor: const Color.fromARGB(255, 39, 98, 236),
+                          activeColor: const Color.fromARGB(255, 87, 75, 151),
                           onChanged: (newMassSwitchValue) {
                             setState(() {
                               massSwitchValue = newMassSwitchValue;
@@ -191,8 +194,6 @@ class _PlanetListState extends State<PlanetList> {
                         ),
                       ],
                     ),
-                    textColor: const Color.fromARGB(255, 39, 98, 236),
-                    collapsedTextColor: Colors.white,
                     iconColor: Colors.white,
                     collapsedIconColor: Colors.white,
                     children: [
@@ -236,16 +237,17 @@ class _PlanetListState extends State<PlanetList> {
                   ),
                   ExpansionTile(
                     tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+                    maintainState: true,
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
                           'Radius',
-                          style: TextStyle(fontSize: 20),
+                          style: kExplorationButtonTextStyle,
                         ),
                         Switch(
                           value: radSwitchValue,
-                          activeColor: const Color.fromARGB(255, 39, 98, 236),
+                          activeColor: const Color.fromARGB(255, 87, 75, 151),
                           onChanged: (newRadSwitchValue) {
                             setState(() {
                               radSwitchValue = newRadSwitchValue;
@@ -264,8 +266,6 @@ class _PlanetListState extends State<PlanetList> {
                         ),
                       ],
                     ),
-                    textColor: const Color.fromARGB(255, 39, 98, 236),
-                    collapsedTextColor: Colors.white,
                     iconColor: Colors.white,
                     collapsedIconColor: Colors.white,
                     children: [
@@ -309,16 +309,17 @@ class _PlanetListState extends State<PlanetList> {
                   ),
                   ExpansionTile(
                     tilePadding: const EdgeInsets.symmetric(horizontal: 10),
+                    maintainState: true,
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
                           'Temperature',
-                          style: TextStyle(fontSize: 20),
+                          style: kExplorationButtonTextStyle,
                         ),
                         Switch(
                           value: tempSwitchValue,
-                          activeColor: const Color.fromARGB(255, 39, 98, 236),
+                          activeColor: const Color.fromARGB(255, 87, 75, 151),
                           onChanged: (newTempSwitchValue) {
                             setState(() {
                               tempSwitchValue = newTempSwitchValue;
@@ -337,8 +338,6 @@ class _PlanetListState extends State<PlanetList> {
                         ),
                       ],
                     ),
-                    textColor: const Color.fromARGB(255, 39, 98, 236),
-                    collapsedTextColor: Colors.white,
                     iconColor: Colors.white,
                     collapsedIconColor: Colors.white,
                     children: [
@@ -383,13 +382,13 @@ class _PlanetListState extends State<PlanetList> {
                 ],
               ),
             ),
-            const Text(
-              'List Of Planets With Matching Statistics',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 189, 187, 187),
-                  fontSize: 19.6,
-                  fontWeight: FontWeight.w400),
-            ),
+            // Text(
+            //   'List Of Planets With Matching Statistics',
+            //   style: TextStyle(
+            //       color: Color.fromARGB(255, 177, 171, 171),
+            //       fontSize: screenHeight * 0.0222,
+            //       fontWeight: FontWeight.w400),
+            // ),
             Expanded(
               child: hasData
                   ? ListView.builder(
@@ -456,7 +455,7 @@ class _ExpandedPlanetParametersState extends State<ExpandedPlanetParameters> {
           ),
           Expanded(
             child: Slider(
-              activeColor: const Color.fromARGB(255, 39, 98, 236),
+              activeColor: const Color.fromARGB(255, 87, 75, 151),
               value: sliderValue!,
               min: widget.minSliderValue,
               max: widget.maxSliderValue,
@@ -505,21 +504,22 @@ class PlanetCard extends StatelessWidget {
             MaterialPageRoute(
                 builder: ((context) => PlanetDetails(
                       planetDetails: planetData[index],
+                      index: index + 1,
                     ))));
       },
       child: Container(
-        margin: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+        margin: const EdgeInsets.fromLTRB(16, 10, 16, 5),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         height: screenHeight * 0.1,
         width: screenwidth * 1,
         decoration: BoxDecoration(
           color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(25),
         ),
         child: Center(
           child: Text(
             planetName,
-            style: kExplorationButtonTextStyle,
+            style: kExplorationButtonTextStyle.copyWith(fontSize: 21),
           ),
         ),
       ),

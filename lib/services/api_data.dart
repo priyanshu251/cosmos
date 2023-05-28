@@ -6,7 +6,7 @@ import '../services/networking.dart';
 // const APItempPart = 'min_temperature=39&max_temperature=4050';
 
 const apodApiKey = '237go3yWSmfxSH7slPZB2k10kcXmmULSvcc8AHuc';
-const planetApiKey = 'UIX6ZMpXVwif5cXhV8FvTA==7cAEkPUeT1WVLptY';
+const planetAndstarApiKey = 'UIX6ZMpXVwif5cXhV8FvTA==7cAEkPUeT1WVLptY';
 
 class APODModel {
   Future<dynamic> getCurrentAPOD(String currentDate) async {
@@ -19,9 +19,18 @@ class APODModel {
 
   Future<dynamic> planetDataByName(String planetName) async {
     NetworkHelper networkHelper = NetworkHelper(
-        'https://api.api-ninjas.com/v1/planets?name=$planetName', planetApiKey);
-    var planetDataByName = await networkHelper.getPlanetData();
+        'https://api.api-ninjas.com/v1/planets?name=$planetName',
+        planetAndstarApiKey);
+    var planetDataByName = await networkHelper.getPlanetAndStarData();
     return planetDataByName;
+  }
+
+  Future<dynamic> starDataByName(String starName) async {
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://api.api-ninjas.com/v1/stars?name=$starName',
+        planetAndstarApiKey);
+    var starDataByName = await networkHelper.getPlanetAndStarData();
+    return starDataByName;
   }
 
   Future<dynamic> getPlanetData(
@@ -37,45 +46,74 @@ class APODModel {
     if (isMassAbled && isRadAbled && isTempAbled) {
       NetworkHelper networkHelper = NetworkHelper(
           'https://api.api-ninjas.com/v1/planets?min_mass=$minMass&max_mass=$maxMass&min_radius=$minRad&max_radius=$maxRad&min_temperature=$minTemp&max_temperature=$maxTemp',
-          planetApiKey);
-      var planetData = await networkHelper.getPlanetData();
+          planetAndstarApiKey);
+      var planetData = await networkHelper.getPlanetAndStarData();
       return planetData;
     } else if (isMassAbled && isRadAbled) {
       NetworkHelper networkHelper = NetworkHelper(
           'https://api.api-ninjas.com/v1/planets?min_mass=$minMass&max_mass=$maxMass&min_radius=$minRad&max_radius=$maxRad',
-          planetApiKey);
-      var planetData = await networkHelper.getPlanetData();
+          planetAndstarApiKey);
+      var planetData = await networkHelper.getPlanetAndStarData();
       return planetData;
     } else if (isMassAbled && isTempAbled) {
       NetworkHelper networkHelper = NetworkHelper(
           'https://api.api-ninjas.com/v1/planets?min_mass=$minMass&max_mass=$maxMass&min_temperature=$minTemp&max_temperature=$maxTemp',
-          planetApiKey);
-      var planetData = await networkHelper.getPlanetData();
+          planetAndstarApiKey);
+      var planetData = await networkHelper.getPlanetAndStarData();
       return planetData;
     } else if (isRadAbled && isTempAbled) {
       NetworkHelper networkHelper = NetworkHelper(
           'https://api.api-ninjas.com/v1/planets?&min_radius=$minRad&max_radius=$maxRad&min_temperature=$minTemp&max_temperature=$maxTemp',
-          planetApiKey);
-      var planetData = await networkHelper.getPlanetData();
+          planetAndstarApiKey);
+      var planetData = await networkHelper.getPlanetAndStarData();
       return planetData;
     } else if (isMassAbled) {
       NetworkHelper networkHelper = NetworkHelper(
           'https://api.api-ninjas.com/v1/planets?min_mass=$minMass&max_mass=$maxMass',
-          planetApiKey);
-      var planetData = await networkHelper.getPlanetData();
+          planetAndstarApiKey);
+      var planetData = await networkHelper.getPlanetAndStarData();
       return planetData;
     } else if (isRadAbled) {
       NetworkHelper networkHelper = NetworkHelper(
           'https://api.api-ninjas.com/v1/planets?min_radius=$minRad&max_radius=$maxRad',
-          planetApiKey);
-      var planetData = await networkHelper.getPlanetData();
+          planetAndstarApiKey);
+      var planetData = await networkHelper.getPlanetAndStarData();
       return planetData;
     } else if (isTempAbled) {
       NetworkHelper networkHelper = NetworkHelper(
           'https://api.api-ninjas.com/v1/planets?min_temperature=$minTemp&max_temperature=$maxTemp',
-          planetApiKey);
-      var planetData = await networkHelper.getPlanetData();
+          planetAndstarApiKey);
+      var planetData = await networkHelper.getPlanetAndStarData();
       return planetData;
+    }
+  }
+
+  Future<dynamic> getStarData(
+    bool isAppMagAbled,
+    bool isAbsMagAbled,
+    double minAppMag,
+    double maxAppMag,
+    double minAbsMag,
+    double maxAbsMag,
+  ) async {
+    if (isAppMagAbled && isAbsMagAbled) {
+      NetworkHelper networkHelper = NetworkHelper(
+          'https://api.api-ninjas.com/v1/stars?min_apparent_magnitude=$minAppMag&max_apparent_magnitude=$maxAppMag&min_absolute_magnitude=$minAbsMag&max_absolute_magnitude=$maxAbsMag',
+          planetAndstarApiKey);
+      var starData = await networkHelper.getPlanetAndStarData();
+      return starData;
+    } else if (isAppMagAbled) {
+      NetworkHelper networkHelper = NetworkHelper(
+          'https://api.api-ninjas.com/v1/stars?min_apparent_magnitude=$minAppMag&max_apparent_magnitude=$maxAppMag',
+          planetAndstarApiKey);
+      var starData = await networkHelper.getPlanetAndStarData();
+      return starData;
+    } else if (isAbsMagAbled) {
+      NetworkHelper networkHelper = NetworkHelper(
+          'https://api.api-ninjas.com/v1/stars?min_apparent_magnitude=$minAbsMag&max_apparent_magnitude=$maxAbsMag',
+          planetAndstarApiKey);
+      var starData = await networkHelper.getPlanetAndStarData();
+      return starData;
     }
   }
 }
