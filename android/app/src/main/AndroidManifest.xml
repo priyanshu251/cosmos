@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.astro_pro">
    <application
-        android:label="astro_pro"
+        android:label="cosmos"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/lancher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
