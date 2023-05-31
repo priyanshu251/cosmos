@@ -1,11 +1,17 @@
 import 'package:astro_pro/constant.dart';
 import 'package:flutter/material.dart';
 
-class PlanetDetails extends StatelessWidget {
-  PlanetDetails({this.planetDetails, this.index});
+class PlanetDetails extends StatefulWidget {
+  PlanetDetails({this.planetDetails, this.ind, this.length});
   dynamic planetDetails;
-  int? index;
+  int? length;
+  int? ind;
 
+  @override
+  State<PlanetDetails> createState() => _PlanetDetailsState();
+}
+
+class _PlanetDetailsState extends State<PlanetDetails> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -34,7 +40,7 @@ class PlanetDetails extends StatelessWidget {
                   top: screenHeight * 0.017,
                   left: screenWidth * 0.029,
                   child: Text(
-                    '# $index',
+                    '# ${widget.ind}',
                     style: kExplorationButtonTextStyle,
                   ),
                 ),
@@ -74,13 +80,58 @@ class PlanetDetails extends StatelessWidget {
                 Positioned(
                   top: screenHeight * 0.17,
                   child: Text(
-                    " ${planetDetails['name']}",
+                    " ${widget.planetDetails[widget.ind]['name']}",
                     style: TextStyle(
                         fontSize: screenHeight * 0.041,
                         color: Colors.white,
                         fontFamily: 'PTSerif-Regular',
                         fontWeight: FontWeight.w300),
                   ),
+                ),
+                Positioned(
+                  top: screenHeight * 0.58,
+                  right: screenHeight * 0.03,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (widget.ind! < widget.length! - 1) {
+                          widget.ind = widget.ind! + 1;
+                        } else {}
+                      });
+                    },
+                    child: CircleAvatar(
+                      radius: 25,
+                      backgroundColor:
+                          const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
+                      child: const Center(
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: screenHeight * 0.58,
+                  left: screenHeight * 0.03,
+                  child: Builder(builder: (context) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (widget.ind! > 0) {
+                            widget.ind = widget.ind! - 1;
+                          }
+                        });
+                      },
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundColor: const Color.fromRGBO(37, 42, 52, 1)
+                            .withOpacity(0.8),
+                        child: const Center(child: Icon(Icons.arrow_back)),
+                      ),
+                    );
+                  }),
                 ),
               ],
             ),
@@ -100,34 +151,37 @@ class PlanetDetails extends StatelessWidget {
                   children: [
                     PlanetDetailPanel(
                         'Mass (Jupiter)',
-                        planetDetails['mass'].toString(),
+                        widget.planetDetails[widget.ind]['mass'].toString(),
                         screenWidth,
                         screenHeight),
                     PlanetDetailPanel(
                         'Radius (Jupiter)',
-                        planetDetails['radius'].toString(),
+                        widget.planetDetails[widget.ind]['radius'].toString(),
                         screenWidth,
                         screenHeight),
                     PlanetDetailPanel(
                         'Period (Earth Days)',
-                        planetDetails['period'].toString(),
+                        widget.planetDetails[widget.ind]['period'].toString(),
                         screenWidth,
                         screenHeight),
                     // PlanetDetailPanel('Semi Major Axis',
                     //     planetDetails['semi_major_axis'].toString()),
                     PlanetDetailPanel(
                         'Temperatue (Kelvin)',
-                        planetDetails['temperature'].toString(),
+                        widget.planetDetails[widget.ind]['temperature']
+                            .toString(),
                         screenWidth,
                         screenHeight),
                     PlanetDetailPanel(
                         'Distance Light Year',
-                        planetDetails['distance_light_year'].toString(),
+                        widget.planetDetails[widget.ind]['distance_light_year']
+                            .toString(),
                         screenWidth,
                         screenHeight),
                     PlanetDetailPanel(
                         'Hot Star Mass',
-                        planetDetails['host_Star_mass'].toString(),
+                        widget.planetDetails[widget.ind]['host_Star_mass']
+                            .toString(),
                         screenWidth,
                         screenHeight)
                   ],

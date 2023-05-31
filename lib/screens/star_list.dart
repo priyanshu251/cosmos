@@ -11,6 +11,7 @@ class StarList extends StatefulWidget {
   State<StarList> createState() => _StarListState();
 }
 
+int? length;
 String? starName;
 dynamic starData;
 bool hasData = false;
@@ -120,7 +121,7 @@ class _StarListState extends State<StarList> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => StarDetails(
-                                starDetails: starDataByName[0], index: 1),
+                                starDetails: starDataByName[0], ind: 1),
                           ),
                         );
                       },
@@ -283,6 +284,7 @@ class _StarListState extends State<StarList> {
                   ? ListView.builder(
                       itemCount: (starData as List).length,
                       itemBuilder: (context, index) {
+                        length = (starData as List).length;
                         return starCard(
                           screenHeight: screenHeight,
                           screenwidth: screenwidth,
@@ -391,8 +393,9 @@ class starCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: ((context) => StarDetails(
-                      starDetails: starData[index],
-                      index: index + 1,
+                      starDetails: starData,
+                      length: length,
+                      ind: index,
                     ))));
       },
       child: Container(

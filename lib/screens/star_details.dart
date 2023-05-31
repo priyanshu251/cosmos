@@ -1,11 +1,17 @@
 import 'package:astro_pro/constant.dart';
 import 'package:flutter/material.dart';
 
-class StarDetails extends StatelessWidget {
-  StarDetails({this.starDetails, this.index});
+class StarDetails extends StatefulWidget {
+  StarDetails({this.starDetails, this.ind, this.length});
   dynamic starDetails;
-  int? index;
+  int? length;
+  int? ind;
 
+  @override
+  State<StarDetails> createState() => _StarDetailsState();
+}
+
+class _StarDetailsState extends State<StarDetails> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -34,7 +40,7 @@ class StarDetails extends StatelessWidget {
                   top: screenHeight * 0.017,
                   left: screenWidth * 0.029,
                   child: Text(
-                    '# $index',
+                    '# ${widget.ind}',
                     style: kExplorationButtonTextStyle,
                   ),
                 ),
@@ -74,13 +80,58 @@ class StarDetails extends StatelessWidget {
                 Positioned(
                   top: screenHeight * 0.17,
                   child: Text(
-                    starDetails['name'],
+                    widget.starDetails[widget.ind]['name'],
                     style: TextStyle(
                         fontSize: screenHeight * 0.041,
                         color: Colors.white,
                         fontFamily: 'PTSerif-Regular',
                         fontWeight: FontWeight.w300),
                   ),
+                ),
+                Positioned(
+                  top: screenHeight * 0.58,
+                  right: screenHeight * 0.03,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (widget.ind! < widget.length! - 1) {
+                          widget.ind = widget.ind! + 1;
+                        } else {}
+                      });
+                    },
+                    child: CircleAvatar(
+                      radius: 25,
+                      backgroundColor:
+                          const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
+                      child: const Center(
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: screenHeight * 0.58,
+                  left: screenHeight * 0.03,
+                  child: Builder(builder: (context) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (widget.ind! > 0) {
+                            widget.ind = widget.ind! - 1;
+                          }
+                        });
+                      },
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundColor: const Color.fromRGBO(37, 42, 52, 1)
+                            .withOpacity(0.8),
+                        child: const Center(child: Icon(Icons.arrow_back)),
+                      ),
+                    );
+                  }),
                 ),
               ],
             ),
@@ -100,31 +151,34 @@ class StarDetails extends StatelessWidget {
                   children: [
                     StarDetailPanel(
                         'Constellation',
-                        starDetails['constellation'],
+                        widget.starDetails[widget.ind]['constellation'],
                         screenWidth,
                         screenHeight),
                     // StarDetailPanel(
                     //     'Right Ascension', starDetails['right_ascension']),
-                    StarDetailPanel('Declination', starDetails['declination'],
-                        screenWidth, screenHeight),
+                    StarDetailPanel(
+                        'Declination',
+                        widget.starDetails[widget.ind]['declination'],
+                        screenWidth,
+                        screenHeight),
                     StarDetailPanel(
                         'Apparent Mag',
-                        starDetails['apparent_magnitude'],
+                        widget.starDetails[widget.ind]['apparent_magnitude'],
                         screenWidth,
                         screenHeight),
                     StarDetailPanel(
                         'Absolute Mag',
-                        starDetails['absolute_magnitude'],
+                        widget.starDetails[widget.ind]['absolute_magnitude'],
                         screenWidth,
                         screenHeight),
                     StarDetailPanel(
                         'Distance Light Year',
-                        starDetails['distance_light_year'],
+                        widget.starDetails[widget.ind]['distance_light_year'],
                         screenWidth,
                         screenHeight),
                     StarDetailPanel(
                         'Spectral Class',
-                        starDetails['spectral_class'],
+                        widget.starDetails[widget.ind]['spectral_class'],
                         screenWidth,
                         screenHeight)
                   ],

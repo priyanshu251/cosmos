@@ -15,6 +15,7 @@ class PlanetList extends StatefulWidget {
   State<PlanetList> createState() => _PlanetListState();
 }
 
+int? length;
 String? planetName;
 dynamic planetData;
 bool hasData = false;
@@ -140,7 +141,7 @@ class _PlanetListState extends State<PlanetList> {
                           MaterialPageRoute(
                             builder: (context) => PlanetDetails(
                               planetDetails: planetDataByName[0],
-                              index: 1,
+                              ind: 1,
                             ),
                           ),
                         );
@@ -394,6 +395,7 @@ class _PlanetListState extends State<PlanetList> {
                   ? ListView.builder(
                       itemCount: (planetData as List).length,
                       itemBuilder: (context, index) {
+                        length = (planetData as List).length;
                         return PlanetCard(
                           screenHeight: screenHeight,
                           screenwidth: screenwidth,
@@ -503,8 +505,9 @@ class PlanetCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: ((context) => PlanetDetails(
-                      planetDetails: planetData[index],
-                      index: index + 1,
+                      planetDetails: planetData,
+                      length: length,
+                      ind: index,
                     ))));
       },
       child: Container(
