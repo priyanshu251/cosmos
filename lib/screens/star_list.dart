@@ -121,7 +121,7 @@ class _StarListState extends State<StarList> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => StarDetails(
-                                starDetails: starDataByName[0], ind: 1),
+                                starDetails: starDataByName, ind: 0),
                           ),
                         );
                       },

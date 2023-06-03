@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CurrentAPODResultPage extends StatefulWidget {
   //is it important to be a stateful widget?
-  CurrentAPODResultPage({required this.apodData});
+  CurrentAPODResultPage({super.key, required this.apodData});
   dynamic apodData;
 
   @override
@@ -13,7 +13,6 @@ class CurrentAPODResultPage extends StatefulWidget {
 class _CurrentAPODResultPageState extends State<CurrentAPODResultPage> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
@@ -37,32 +36,36 @@ class _CurrentAPODResultPageState extends State<CurrentAPODResultPage> {
                     fontSize: screenHeight * 0.019,
                     fontWeight: FontWeight.w300),
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: InteractiveViewer(
-                      //zoomable image
-                      minScale: 0.8,
-                      maxScale: 2.5,
-                      child: Hero(
-                        tag: 'apod',
-                        child: Image.network(widget.apodData['url'],
-                            fit: BoxFit.fill),
-                      )),
-                ),
-              ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Text(
-                    widget.apodData['explanation'],
-                    textAlign: TextAlign.justify,
-                    style: kExplorationButtonTextStyle.copyWith(
-                        fontSize: screenHeight * 0.0254,
-                        fontFamily: "Playfair"),
-                  ),
+                  child: Column(children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: InteractiveViewer(
+                          //zoomable image
+                          minScale: 0.8,
+                          maxScale: 2.5,
+                          child: Hero(
+                            tag: widget.apodData['date'],
+                            child: Image.network(widget.apodData['url'],
+                                fit: BoxFit.fill),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      widget.apodData['explanation'],
+                      textAlign: TextAlign.justify,
+                      style: kExplorationButtonTextStyle.copyWith(
+                          fontSize: screenHeight * 0.0254,
+                          fontFamily: "Playfair"),
+                    ),
+                  ]),
                 ),
-              )
+              ),
             ],
           ),
         ),

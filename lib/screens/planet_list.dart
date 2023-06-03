@@ -140,8 +140,8 @@ class _PlanetListState extends State<PlanetList> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => PlanetDetails(
-                              planetDetails: planetDataByName[0],
-                              ind: 1,
+                              planetDetails: planetDataByName,
+                              ind: 0,
                             ),
                           ),
                         );

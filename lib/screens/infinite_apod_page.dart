@@ -2,7 +2,6 @@ import 'package:astro_pro/constant.dart';
 import 'package:astro_pro/screens/current_apod_result_page.dart';
 import 'package:astro_pro/services/networking.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 class InfiniteAPOD extends StatefulWidget {
   @override
@@ -42,9 +41,7 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  return APODRandomImage(
-                    tag: index.toString(),
-                  );
+                  return const APODRandomImage();
                 },
                 cacheExtent: 3000,
               ),
@@ -57,8 +54,7 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
 }
 
 class APODRandomImage extends StatefulWidget {
-  APODRandomImage({required this.tag});
-  String tag;
+  const APODRandomImage({super.key});
 
   @override
   State<APODRandomImage> createState() => _APODRandomImageState();
@@ -116,7 +112,14 @@ class _APODRandomImageState extends State<APODRandomImage> {
                       minScale: 0.8,
                       maxScale: 2.5,
                       child: Hero(
-                        tag: widget.tag,
+                        tag: data['date'],
+                        flightShuttleBuilder: (flightContext, animation,
+                            flightDirection, fromHeroContext, toHeroContext) {
+                          return RotationTransition(
+                            turns: animation,
+                            child: toHeroContext.widget,
+                          );
+                        },
                         child: Image(
                           image: NetworkImage(data['url']),
                           fit: BoxFit.cover,

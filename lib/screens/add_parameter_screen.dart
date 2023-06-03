@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import '../constant.dart';
 
 class AddParameterScreen extends StatefulWidget {
+  const AddParameterScreen({super.key});
+
   @override
   State<AddParameterScreen> createState() => _AddParameterScreenState();
 }
@@ -17,12 +19,17 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color.fromARGB(255, 0, 0, 0),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('images/behind_bottomsheet.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Container(
         padding: const EdgeInsets.fromLTRB(30, 12, 30, 30),
-        decoration: BoxDecoration(
-          color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
-          borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+          color: Color(0xFF1e222b),
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           ),
@@ -127,7 +134,7 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
 }
 
 class GetAPOD extends StatelessWidget {
-  GetAPOD({this.parameter, this.onPress});
+  const GetAPOD({super.key, this.parameter, this.onPress});
   final Widget? parameter;
   final void Function()? onPress;
 

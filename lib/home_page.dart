@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                       height: mediaquery.size.height * 0.02,
                     ),
                     Text(
-                      'Space exploration is the use of astronomy and space technology to explore outer space. While the exploration of space is carried out mainly by astronomers with telescopes, its physical exploration is conducted both by uncrewed robotic space probes and human spaceflight.',
+                      'Embark on a cosmic adventure with our space exploration app. Discover captivating astronomical pictures of the day from NASA\'s API. Customize and explore a curated list of planets based on temperature, mass, and radius preferences. Dive into the fascinating world of stars with a comprehensive corresponding list.',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: mediaquery.size.height * 0.023,
@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                       textAlign: TextAlign.justify,
                     ),
                     SizedBox(
-                      height: mediaquery.size.height * 0.07,
+                      height: mediaquery.size.height * 0.06,
                     ),
                     ExplorationTitle(
                       title: 'APOD',
@@ -262,7 +262,7 @@ class _HomePageState extends State<HomePage> {
                               padding: EdgeInsets.only(
                                   bottom:
                                       MediaQuery.of(context).viewInsets.bottom),
-                              child: AddParameterScreen(),
+                              child: const AddParameterScreen(),
                             ),
                           ),
                         );
@@ -274,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => PlanetList())));
+                                  builder: ((context) => const PlanetList())));
                         }),
                     ExplorationTitle(
                         title: 'Stars',
@@ -282,7 +282,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => StarList())));
+                                  builder: ((context) => const StarList())));
                         }),
                   ],
                 ),
@@ -294,7 +294,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class ExplorationTitle extends StatelessWidget {
-  ExplorationTitle({this.title, this.onPress});
+  const ExplorationTitle({super.key, this.title, this.onPress});
   final String? title;
   final void Function()? onPress;
 
