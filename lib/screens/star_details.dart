@@ -18,7 +18,6 @@ class _StarDetailsState extends State<StarDetails> {
     double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(24, 25, 32, 1),
         body: Column(
           children: [
             Stack(
@@ -41,7 +40,6 @@ class _StarDetailsState extends State<StarDetails> {
                   left: screenWidth * 0.029,
                   child: Text(
                     '# ${widget.ind}',
-                    style: kExplorationButtonTextStyle,
                   ),
                 ),
                 Positioned(
@@ -50,7 +48,6 @@ class _StarDetailsState extends State<StarDetails> {
                   child: IconButton(
                     icon: const Icon(
                       Icons.arrow_back,
-                      color: Colors.white,
                     ),
                     splashColor:
                         const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
@@ -63,10 +60,6 @@ class _StarDetailsState extends State<StarDetails> {
                   top: screenHeight * 0.11,
                   child: const Text(
                     'Star',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w200),
                   ),
                 ),
                 Positioned(
@@ -198,19 +191,13 @@ class _StarDetailsState extends State<StarDetails> {
       children: [
         Text(
           "${detailName}",
-          style: kPlanetDetailLeftTextStyle.copyWith(
-              fontFamily: 'Playfair', fontSize: screenWidth * 0.045),
           textAlign: TextAlign.left,
         ),
         Text(
           ':',
-          style:
-              kPlanetDetailLeftTextStyle.copyWith(fontWeight: FontWeight.w600),
         ),
         Text(
           detailValue,
-          style: kPlanetDetailRightTextStyle.copyWith(
-              fontFamily: 'Playfair', fontSize: screenWidth * 0.045),
           textAlign: TextAlign.right,
         ),
       ],

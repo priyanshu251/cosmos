@@ -80,7 +80,6 @@ class _StarListState extends State<StarList> {
     double screenwidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(24, 25, 32, 1),
         body: Column(
           children: <Widget>[
             Container(
@@ -127,8 +126,6 @@ class _StarListState extends State<StarList> {
                       },
                       child: const Icon(
                         Icons.arrow_forward,
-                        size: 23,
-                        color: Colors.white,
                       ))
                 ],
               ),
@@ -151,7 +148,6 @@ class _StarListState extends State<StarList> {
                       children: [
                         const Text(
                           'Apparent Magnitude',
-                          style: kExplorationButtonTextStyle,
                         ),
                         Switch(
                           value: appSwitchValue,
@@ -214,7 +210,6 @@ class _StarListState extends State<StarList> {
                       children: [
                         const Text(
                           'Absolute Magnitude',
-                          style: kExplorationButtonTextStyle,
                         ),
                         Switch(
                           value: absSwitchValue,
@@ -341,7 +336,6 @@ class _ExpandedStarParametersState extends State<ExpandedStarParameters> {
         children: [
           Text(
             widget.parameter,
-            style: const TextStyle(color: Color.fromARGB(255, 228, 228, 228)),
           ),
           Expanded(
             child: Slider(
@@ -365,7 +359,6 @@ class _ExpandedStarParametersState extends State<ExpandedStarParameters> {
           ),
           Text(
             sliderValue!.toStringAsFixed(2),
-            style: const TextStyle(color: Color.fromARGB(255, 203, 202, 202)),
           ),
         ],
       ),
@@ -410,7 +403,6 @@ class starCard extends StatelessWidget {
         child: Center(
           child: Text(
             starName,
-            style: kExplorationButtonTextStyle.copyWith(fontSize: 21),
           ),
         ),
       ),

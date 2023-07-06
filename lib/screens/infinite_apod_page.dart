@@ -2,6 +2,9 @@ import 'package:astro_pro/constant.dart';
 import 'package:astro_pro/screens/current_apod_result_page.dart';
 import 'package:astro_pro/services/networking.dart';
 import 'package:flutter/material.dart';
+import 'package:astro_pro/utility/custom_appbar.dart';
+
+import 'package:transparent_image/transparent_image.dart';
 
 class InfiniteAPOD extends StatefulWidget {
   @override
@@ -13,25 +16,26 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(24, 25, 32, 1),
         body: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 12, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    ' Astronomical Pictures:',
-                    style: kExplorationButtonTextStyle.copyWith(fontSize: 27),
+                    'Astronomical Pictures',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontSize: 23),
                   ),
-                  GestureDetector(
-                    onTap: () {
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Icon(
+                    icon: const Icon(
                       Icons.arrow_back,
-                      size: 27,
                       color: Colors.white,
                     ),
                   ),
@@ -92,7 +96,7 @@ class _APODRandomImageState extends State<APODRandomImage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Container(
-        margin: const EdgeInsets.fromLTRB(15, 0, 15, 15),
+        margin: const EdgeInsets.fromLTRB(12, 12, 12, 0),
         padding: const EdgeInsets.all(0),
         height: screenHeight * 0.3,
         width: screenWidth * 0.8,
@@ -113,14 +117,15 @@ class _APODRandomImageState extends State<APODRandomImage> {
                       maxScale: 2.5,
                       child: Hero(
                         tag: data['date'],
-                        flightShuttleBuilder: (flightContext, animation,
-                            flightDirection, fromHeroContext, toHeroContext) {
-                          return RotationTransition(
-                            turns: animation,
-                            child: toHeroContext.widget,
-                          );
-                        },
-                        child: Image(
+                        // flightShuttleBuilder: (flightContext, animation,
+                        //     flightDirection, fromHeroContext, toHeroContext) {
+                        //   return RotationTransition(
+                        //     turns: animation,
+                        //     child: toHeroContext.widget,
+                        //   );
+                        // },
+                        child: FadeInImage(
+                          placeholder: MemoryImage(kTransparentImage),
                           image: NetworkImage(data['url']),
                           fit: BoxFit.cover,
                           width: double.infinity,
@@ -136,8 +141,9 @@ class _APODRandomImageState extends State<APODRandomImage> {
                       padding: const EdgeInsets.fromLTRB(10, 20, 10, 8),
                       width: screenWidth,
                       decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
                         color: Colors.black,
                         gradient: LinearGradient(
                           begin: Alignment.bottomCenter,
@@ -153,10 +159,6 @@ class _APODRandomImageState extends State<APODRandomImage> {
                       ),
                       child: Text(
                         '${data['title']} >',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 19,
-                            fontFamily: "PTSansNarrow"),
                       ),
                     ),
                   ),
@@ -167,3 +169,56 @@ class _APODRandomImageState extends State<APODRandomImage> {
               ));
   }
 }
+
+// Stack(
+//           children: [
+//             FadeInImage(
+//               placeholder: MemoryImage(kTransparentImage),
+//               image: NetworkImage(meal.imageUrl),
+//               fit: BoxFit.cover,
+//               height: 200,
+//               width: double.infinity,
+//             ),
+//             Positioned(
+//                 bottom: 0,
+//                 left: 0,
+//                 right: 0,
+//                 child: Container(
+//                   color: Colors.black54,
+//                   padding:
+//                       const EdgeInsets.symmetric(vertical: 6, horizontal: 44),
+//                   child: Column(
+//                     children: [
+//                       Text(
+//                         meal.title,
+//                         maxLines: 2,
+//                         textAlign: TextAlign.center,
+//                         softWrap: true,
+//                         overflow: TextOverflow.ellipsis,
+//                         style: const TextStyle(
+//                           fontSize: 20,
+//                           fontWeight: FontWeight.bold,
+//                           color: Colors.white,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 12),
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         children: [
+//                           MealItemTrait(
+//                               icon: Icons.schedule,
+//                               label: '${meal.duration} min'),
+//                           const SizedBox(width: 12),
+//                           MealItemTrait(
+//                               icon: Icons.work, label: complexityText),
+//                           const SizedBox(width: 12),
+//                           MealItemTrait(
+//                               icon: Icons.attach_money,
+//                               label: affordabilityText),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ))
+//           ],
+//         ),

@@ -18,7 +18,6 @@ class _PlanetDetailsState extends State<PlanetDetails> {
     double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(24, 25, 32, 1),
         body: Column(
           children: [
             Stack(
@@ -41,7 +40,6 @@ class _PlanetDetailsState extends State<PlanetDetails> {
                   left: screenWidth * 0.029,
                   child: Text(
                     '# ${widget.ind}',
-                    style: kExplorationButtonTextStyle,
                   ),
                 ),
                 Positioned(
@@ -50,7 +48,6 @@ class _PlanetDetailsState extends State<PlanetDetails> {
                   child: IconButton(
                     icon: const Icon(
                       Icons.arrow_back,
-                      color: Colors.white,
                     ),
                     splashColor:
                         const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
@@ -61,12 +58,12 @@ class _PlanetDetailsState extends State<PlanetDetails> {
                 ),
                 Positioned(
                   top: screenHeight * 0.11,
-                  child: const Text(
+                  child: Text(
                     'Planet',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w200),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(fontWeight: FontWeight.w300, fontSize: 26),
                   ),
                 ),
                 Positioned(
@@ -81,11 +78,8 @@ class _PlanetDetailsState extends State<PlanetDetails> {
                   top: screenHeight * 0.17,
                   child: Text(
                     " ${widget.planetDetails[widget.ind]['name']}",
-                    style: TextStyle(
-                        fontSize: screenHeight * 0.041,
-                        color: Colors.white,
-                        fontFamily: 'PTSerif-Regular',
-                        fontWeight: FontWeight.w300),
+                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        fontWeight: FontWeight.w500, color: Colors.white),
                   ),
                 ),
                 Positioned(
@@ -106,7 +100,6 @@ class _PlanetDetailsState extends State<PlanetDetails> {
                       child: const Center(
                         child: Icon(
                           Icons.arrow_forward,
-                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -150,38 +143,35 @@ class _PlanetDetailsState extends State<PlanetDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     PlanetDetailPanel(
-                        'Mass (Jupiter)',
-                        widget.planetDetails[widget.ind]['mass'].toString(),
+                        'Mass',
+                        '${widget.planetDetails[widget.ind]['mass']} (Jupiter)',
                         screenWidth,
                         screenHeight),
                     PlanetDetailPanel(
-                        'Radius (Jupiter)',
-                        widget.planetDetails[widget.ind]['radius'].toString(),
+                        'Radius',
+                        '${widget.planetDetails[widget.ind]['radius']} (Jupiter)',
                         screenWidth,
                         screenHeight),
                     PlanetDetailPanel(
-                        'Period (Earth Days)',
-                        widget.planetDetails[widget.ind]['period'].toString(),
+                        'Period',
+                        '${widget.planetDetails[widget.ind]['period']} (Earth Days)',
                         screenWidth,
                         screenHeight),
                     // PlanetDetailPanel('Semi Major Axis',
                     //     planetDetails['semi_major_axis'].toString()),
                     PlanetDetailPanel(
-                        'Temperatue (Kelvin)',
-                        widget.planetDetails[widget.ind]['temperature']
-                            .toString(),
+                        'Temperatue',
+                        '${widget.planetDetails[widget.ind]['temperature']} (Kelvin)',
                         screenWidth,
                         screenHeight),
                     PlanetDetailPanel(
                         'Distance Light Year',
-                        widget.planetDetails[widget.ind]['distance_light_year']
-                            .toString(),
+                        '${widget.planetDetails[widget.ind]['distance_light_year']}',
                         screenWidth,
                         screenHeight),
                     PlanetDetailPanel(
                         'Hot Star Mass',
-                        widget.planetDetails[widget.ind]['host_Star_mass']
-                            .toString(),
+                        '${widget.planetDetails[widget.ind]['host_star_mass']}',
                         screenWidth,
                         screenHeight)
                   ],
@@ -201,20 +191,17 @@ class _PlanetDetailsState extends State<PlanetDetails> {
       children: [
         Text(
           "${detailName}",
-          style: kPlanetDetailLeftTextStyle.copyWith(
-              fontFamily: 'Playfair', fontSize: screenWidth * 0.045),
           textAlign: TextAlign.left,
+          style: Theme.of(context).textTheme.labelLarge,
         ),
         Text(
           ':',
-          style:
-              kPlanetDetailLeftTextStyle.copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(context).textTheme.labelLarge,
         ),
         Text(
           detailValue,
-          style: kPlanetDetailRightTextStyle.copyWith(
-              fontFamily: 'Playfair', fontSize: screenWidth * 0.045),
           textAlign: TextAlign.right,
+          style: Theme.of(context).textTheme.labelLarge,
         ),
       ],
     );

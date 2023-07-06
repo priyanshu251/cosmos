@@ -1,23 +1,5 @@
 import 'package:flutter/material.dart';
-
-const kExplorationButtonTextStyle = TextStyle(
-  fontSize: 20,
-  fontFamily: "PTSerif-Regular",
-  //use copy wit method for get button fontFamily: "Playfair",
-  color: Colors.white,
-);
-
-const kPlanetDetailLeftTextStyle = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w100,
-  color: Colors.white,
-);
-
-const kPlanetDetailRightTextStyle = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w500,
-  color: Color.fromARGB(255, 235, 47, 122),
-);
+// color: Color.fromARGB(255, 235, 47, 122),
 
 const kSearchTextFeild = InputDecoration(
   hintStyle: TextStyle(
@@ -61,14 +43,6 @@ const kRedGradient = LinearGradient(
     colors: <Color>[
       Color.fromARGB(255, 168, 51, 86),
       Color(0xFF595185), //red
-    ]);
-
-const kBlueGradient = LinearGradient(
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
-    colors: <Color>[
-      Color.fromARGB(255, 18, 69, 187),
-      Color.fromARGB(255, 8, 20, 84), //blue
     ]);
 
 const kPlanetConatinerGradient = <Color>[

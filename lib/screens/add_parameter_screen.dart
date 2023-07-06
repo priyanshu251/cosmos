@@ -38,11 +38,8 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
           children: [
             Text(
               'Astronomical Picture Of The Day',
+              style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
-              style: kExplorationButtonTextStyle.copyWith(
-                fontWeight: FontWeight.w100,
-                color: const Color.fromARGB(255, 217, 217, 217),
-              ),
             ),
             const Divider(
               color: Color.fromARGB(255, 160, 160, 160),
@@ -56,8 +53,8 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
             ),
             GetAPOD(
               parameter: Text(
-                DateFormat("yyyy-MM-dd").format(DateTime.now()),
-                style: kExplorationButtonTextStyle.copyWith(fontSize: 17),
+                DateFormat("dd-MM-yyyy").format(DateTime.now()),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               onPress: () async {
                 var apodData = await apodModel.getCurrentAPOD(
@@ -74,30 +71,33 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
               },
             ),
             GetAPOD(
-              parameter: OutlinedButton.icon(
-                onPressed: () async {
-                  DateTime? selectedDate = await showDatePicker(
-                      context: context,
-                      initialDate: date,
-                      firstDate: DateTime(1996),
-                      lastDate: DateTime.now());
-                  if (selectedDate == null) {
-                    return;
-                  } else {
-                    setState(() {
-                      date = selectedDate;
-                    });
-                  }
-                },
-                label: Text(
-                  '${date.year}-${date.month}-${date.day}',
-                  style: kExplorationButtonTextStyle.copyWith(fontSize: 17),
+              parameter: Row(children: [
+                Text(
+                  '${date.day}/${date.month}/${date.year}',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                icon: const Icon(Icons.calendar_today),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: const Color.fromARGB(255, 87, 75, 151), //red
+                IconButton(
+                  onPressed: () async {
+                    DateTime? selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate: date,
+                        firstDate: DateTime(1996),
+                        lastDate: DateTime.now());
+                    if (selectedDate == null) {
+                      return;
+                    } else {
+                      setState(() {
+                        date = selectedDate;
+                      });
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.calendar_month,
+                    color: Color.fromARGB(255, 114, 122, 226),
+                  ),
+                  splashRadius: 20,
                 ),
-              ),
+              ]),
               onPress: () async {
                 var apodData = await apodModel.getCurrentAPOD(
                     DateFormat("yyyy-MM-dd")
@@ -115,7 +115,7 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
             GetAPOD(
               parameter: Text(
                 'Random',
-                style: kExplorationButtonTextStyle.copyWith(fontSize: 17),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               onPress: () {
                 Navigator.push(
@@ -161,8 +161,7 @@ class GetAPOD extends StatelessWidget {
               ),
               child: Text(
                 'Get',
-                style: kExplorationButtonTextStyle.copyWith(
-                    fontSize: 15, fontFamily: "Playfair"),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
           ),
@@ -171,3 +170,25 @@ class GetAPOD extends StatelessWidget {
     );
   }
 }
+// OutlinedButton.icon(
+//                 onPressed: () async {
+//                   DateTime? selectedDate = await showDatePicker(
+//                       context: context,
+//                       initialDate: date,
+//                       firstDate: DateTime(1996),
+//                       lastDate: DateTime.now());
+//                   if (selectedDate == null) {
+//                     return;
+//                   } else {
+//                     setState(() {
+//                       date = selectedDate;
+//                     });
+//                   }
+//                 },
+//                 label: Text(
+//                   '${date.day}-${date.month}-${date.year}',
+//                   style: Theme.of(context).textTheme.bodyMedium,
+//                 ),
+//                 icon: const Icon(Icons.calendar_today),
+               
+//               ),

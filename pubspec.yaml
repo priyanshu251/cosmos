@@ -43,6 +43,8 @@ dependencies:
   cached_network_image: ^3.2.3
   animations: ^2.0.7
   flutter_launcher_icons: ^0.13.1
+  google_fonts: ^4.0.4
+  transparent_image: ^2.0.1
 
 flutter_launcher_icons:
   image_path: "images/cosmos.png" 
@@ -53,6 +55,11 @@ flutter_launcher_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^2.3.1  
+
+flutter_native_splash:
+  background_image: images/splash_bck2.png
+  image: images/cosmos.png
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -1,8 +1,14 @@
-import 'package:astro_pro/home_page.dart';
+import 'package:astro_pro/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  runApp(const MyApp());
+  // FlutterNativeSplash.remove();
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -12,7 +18,10 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: const Color.fromRGBO(24, 25, 32, 1),
+      ),
       home: HomePage(),
     );
   }

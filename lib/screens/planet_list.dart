@@ -132,25 +132,24 @@ class _PlanetListState extends State<PlanetList> {
                     ),
                   ),
                   GestureDetector(
-                      onTap: () async {
-                        var planetDataByName =
-                            await apodModel.planetDataByName(planetName!);
-                        if (!mounted) return;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PlanetDetails(
-                              planetDetails: planetDataByName,
-                              ind: 0,
-                            ),
+                    onTap: () async {
+                      var planetDataByName =
+                          await apodModel.planetDataByName(planetName!);
+                      if (!mounted) return;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PlanetDetails(
+                            planetDetails: planetDataByName,
+                            ind: 0,
                           ),
-                        );
-                      },
-                      child: const Icon(
-                        Icons.arrow_forward,
-                        size: 23,
-                        color: Colors.white,
-                      ))
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.arrow_forward,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -172,7 +171,6 @@ class _PlanetListState extends State<PlanetList> {
                       children: [
                         const Text(
                           'Mass',
-                          style: kExplorationButtonTextStyle,
                         ),
                         Switch(
                           value: massSwitchValue,
@@ -244,7 +242,6 @@ class _PlanetListState extends State<PlanetList> {
                       children: [
                         const Text(
                           'Radius',
-                          style: kExplorationButtonTextStyle,
                         ),
                         Switch(
                           value: radSwitchValue,
@@ -316,7 +313,7 @@ class _PlanetListState extends State<PlanetList> {
                       children: [
                         const Text(
                           'Temperature',
-                          style: kExplorationButtonTextStyle,
+                          // style: kExplorationButtonTextStyle,
                         ),
                         Switch(
                           value: tempSwitchValue,
@@ -453,7 +450,6 @@ class _ExpandedPlanetParametersState extends State<ExpandedPlanetParameters> {
         children: [
           Text(
             widget.parameter,
-            style: const TextStyle(color: Color.fromARGB(255, 228, 228, 228)),
           ),
           Expanded(
             child: Slider(
@@ -477,7 +473,6 @@ class _ExpandedPlanetParametersState extends State<ExpandedPlanetParameters> {
           ),
           Text(
             exp(sliderValue!).toStringAsFixed(6),
-            style: const TextStyle(color: Color.fromARGB(255, 203, 202, 202)),
           ),
         ],
       ),
@@ -522,7 +517,6 @@ class PlanetCard extends StatelessWidget {
         child: Center(
           child: Text(
             planetName,
-            style: kExplorationButtonTextStyle.copyWith(fontSize: 21),
           ),
         ),
       ),
