@@ -19,8 +19,9 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 12, 0),
+              padding: const EdgeInsets.fromLTRB(16, 8, 12, 8),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Astronomical Pictures',
@@ -44,6 +45,8 @@ class _InfiniteAPODState extends State<InfiniteAPOD> {
             ),
             Expanded(
               child: ListView.builder(
+                physics: BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
                 itemBuilder: (context, index) {
                   return const APODRandomImage();
                 },
@@ -96,7 +99,7 @@ class _APODRandomImageState extends State<APODRandomImage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Container(
-        margin: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+        margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
         padding: const EdgeInsets.all(0),
         height: screenHeight * 0.3,
         width: screenWidth * 0.8,

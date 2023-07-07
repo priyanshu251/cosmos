@@ -4,6 +4,7 @@ import 'package:astro_pro/services/api_data.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import '../constant.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AddParameterScreen extends StatefulWidget {
   const AddParameterScreen({super.key});
@@ -36,14 +37,21 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
         ),
         child: Column(
           children: [
+            const SizedBox(
+              height: 2,
+            ),
             Text(
               'Astronomical Picture Of The Day',
-              style: Theme.of(context).textTheme.titleLarge,
+              style: GoogleFonts.exo(
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 22, fontWeight: FontWeight.w400)),
               textAlign: TextAlign.center,
             ),
             const Divider(
               color: Color.fromARGB(255, 160, 160, 160),
-              height: 13,
+              height: 16,
               thickness: 1,
               indent: 1,
               endIndent: 1,
@@ -170,25 +178,3 @@ class GetAPOD extends StatelessWidget {
     );
   }
 }
-// OutlinedButton.icon(
-//                 onPressed: () async {
-//                   DateTime? selectedDate = await showDatePicker(
-//                       context: context,
-//                       initialDate: date,
-//                       firstDate: DateTime(1996),
-//                       lastDate: DateTime.now());
-//                   if (selectedDate == null) {
-//                     return;
-//                   } else {
-//                     setState(() {
-//                       date = selectedDate;
-//                     });
-//                   }
-//                 },
-//                 label: Text(
-//                   '${date.day}-${date.month}-${date.year}',
-//                   style: Theme.of(context).textTheme.bodyMedium,
-//                 ),
-//                 icon: const Icon(Icons.calendar_today),
-               
-//               ),

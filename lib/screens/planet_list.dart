@@ -7,6 +7,8 @@ import 'package:astro_pro/services/api_data.dart';
 import 'package:flutter/material.dart';
 import 'planet_details.dart';
 import 'dart:math';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PlanetList extends StatefulWidget {
   const PlanetList({super.key});
@@ -122,7 +124,7 @@ class _PlanetListState extends State<PlanetList> {
                           hintText: 'Search planet by name',
                           prefixIcon: const Icon(
                             Icons.search,
-                            color: Color.fromARGB(255, 87, 75, 151),
+                            color: Colors.white60,
                           ),
                         ),
                         onChanged: (value) {
@@ -155,7 +157,7 @@ class _PlanetListState extends State<PlanetList> {
             ),
             //This Container will remains constant
             Container(
-              margin: const EdgeInsets.fromLTRB(16, 10, 16, 15),
+              margin: const EdgeInsets.fromLTRB(16, 10, 16, 7),
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
@@ -169,8 +171,12 @@ class _PlanetListState extends State<PlanetList> {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Mass',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontSize: 18),
                         ),
                         Switch(
                           value: massSwitchValue,
@@ -240,8 +246,12 @@ class _PlanetListState extends State<PlanetList> {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Radius',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontSize: 18),
                         ),
                         Switch(
                           value: radSwitchValue,
@@ -311,9 +321,12 @@ class _PlanetListState extends State<PlanetList> {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Temperature',
-                          // style: kExplorationButtonTextStyle,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontSize: 18),
                         ),
                         Switch(
                           value: tempSwitchValue,
@@ -389,17 +402,30 @@ class _PlanetListState extends State<PlanetList> {
             // ),
             Expanded(
               child: hasData
-                  ? ListView.builder(
-                      itemCount: (planetData as List).length,
-                      itemBuilder: (context, index) {
-                        length = (planetData as List).length;
-                        return PlanetCard(
-                          screenHeight: screenHeight,
-                          screenwidth: screenwidth,
-                          planetName: planetData[index]['name'],
-                          index: index,
-                        );
-                      },
+                  ? AnimationLimiter(
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        itemCount: (planetData as List).length,
+                        itemBuilder: (context, index) {
+                          length = (planetData as List).length;
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 1000),
+                            child: SlideAnimation(
+                              verticalOffset: 80.0,
+                              child: FadeInAnimation(
+                                child: PlanetCard(
+                                  screenHeight: screenHeight,
+                                  screenwidth: screenwidth,
+                                  planetName: planetData[index]['name'],
+                                  index: index,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     )
                   : const Center(
                       child: CircularProgressIndicator(),
@@ -452,23 +478,25 @@ class _ExpandedPlanetParametersState extends State<ExpandedPlanetParameters> {
             widget.parameter,
           ),
           Expanded(
-            child: Slider(
-              activeColor: const Color.fromARGB(255, 87, 75, 151),
-              value: sliderValue!,
-              min: widget.minSliderValue,
-              max: widget.maxSliderValue,
-              onChanged: (value) {
-                setState(() {
-                  sliderValue = value;
-                });
-              },
-              onChangeEnd: (newValue) {
-                setState(() {
-                  sliderValue = newValue;
-                });
-                widget.onPress(
-                    newValue); //why even after reaching at minimum and maximum value the slider keeps updating the value that to the same number
-              },
+            child: SliderTheme(
+              data: Theme.of(context).sliderTheme,
+              child: Slider(
+                value: sliderValue!,
+                min: widget.minSliderValue,
+                max: widget.maxSliderValue,
+                onChanged: (value) {
+                  setState(() {
+                    sliderValue = value;
+                  });
+                },
+                onChangeEnd: (newValue) {
+                  setState(() {
+                    sliderValue = newValue;
+                  });
+                  widget.onPress(
+                      newValue); //why even after reaching at minimum and maximum value the slider keeps updating the value that to the same number
+                },
+              ),
             ),
           ),
           Text(
@@ -517,6 +545,11 @@ class PlanetCard extends StatelessWidget {
         child: Center(
           child: Text(
             planetName,
+            style: GoogleFonts.exo(
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(fontSize: 18, fontWeight: FontWeight.w400)),
           ),
         ),
       ),

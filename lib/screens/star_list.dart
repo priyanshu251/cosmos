@@ -1,7 +1,8 @@
 import 'package:astro_pro/constant.dart';
 import 'package:astro_pro/services/api_data.dart';
 import 'package:flutter/material.dart';
-import 'planet_details.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'star_details.dart';
 
 class StarList extends StatefulWidget {
@@ -102,7 +103,7 @@ class _StarListState extends State<StarList> {
                           hintText: 'Search star by name',
                           prefixIcon: const Icon(
                             Icons.search,
-                            color: Color.fromARGB(255, 87, 75, 151),
+                            color: Colors.white60,
                           ),
                         ),
                         onChanged: (value) {
@@ -146,8 +147,12 @@ class _StarListState extends State<StarList> {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Apparent Magnitude',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontSize: 18),
                         ),
                         Switch(
                           value: appSwitchValue,
@@ -208,8 +213,12 @@ class _StarListState extends State<StarList> {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Absolute Magnitude',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontSize: 18),
                         ),
                         Switch(
                           value: absSwitchValue,
@@ -276,17 +285,30 @@ class _StarListState extends State<StarList> {
             // ),
             Expanded(
               child: hasData
-                  ? ListView.builder(
-                      itemCount: (starData as List).length,
-                      itemBuilder: (context, index) {
-                        length = (starData as List).length;
-                        return starCard(
-                          screenHeight: screenHeight,
-                          screenwidth: screenwidth,
-                          starName: starData[index]['name'],
-                          index: index,
-                        );
-                      },
+                  ? AnimationLimiter(
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        itemCount: (starData as List).length,
+                        itemBuilder: (context, index) {
+                          length = (starData as List).length;
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 1000),
+                            child: SlideAnimation(
+                              verticalOffset: 80.0,
+                              child: FadeInAnimation(
+                                child: starCard(
+                                  screenHeight: screenHeight,
+                                  screenwidth: screenwidth,
+                                  starName: starData[index]['name'],
+                                  index: index,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     )
                   : const Center(
                       child: CircularProgressIndicator(),
@@ -338,23 +360,25 @@ class _ExpandedStarParametersState extends State<ExpandedStarParameters> {
             widget.parameter,
           ),
           Expanded(
-            child: Slider(
-              activeColor: const Color.fromARGB(255, 87, 75, 151),
-              value: sliderValue!,
-              min: widget.minSliderValue,
-              max: widget.maxSliderValue,
-              onChanged: (value) {
-                setState(() {
-                  sliderValue = value;
-                });
-              },
-              onChangeEnd: (newValue) {
-                setState(() {
-                  sliderValue = newValue;
-                });
-                widget.onPress(
-                    newValue); //why even after reaching at minimum and maximum value the slider keeps updating the value that to the same number
-              },
+            child: SliderTheme(
+              data: Theme.of(context).sliderTheme,
+              child: Slider(
+                value: sliderValue!,
+                min: widget.minSliderValue,
+                max: widget.maxSliderValue,
+                onChanged: (value) {
+                  setState(() {
+                    sliderValue = value;
+                  });
+                },
+                onChangeEnd: (newValue) {
+                  setState(() {
+                    sliderValue = newValue;
+                  });
+                  widget.onPress(
+                      newValue); //why even after reaching at minimum and maximum value the slider keeps updating the value that to the same number
+                },
+              ),
             ),
           ),
           Text(
@@ -403,6 +427,11 @@ class starCard extends StatelessWidget {
         child: Center(
           child: Text(
             starName,
+            style: GoogleFonts.exo(
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(fontSize: 18, fontWeight: FontWeight.w400)),
           ),
         ),
       ),

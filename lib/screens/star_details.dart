@@ -1,5 +1,6 @@
 import 'package:astro_pro/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class StarDetails extends StatefulWidget {
   StarDetails({this.starDetails, this.ind, this.length});
@@ -14,6 +15,7 @@ class StarDetails extends StatefulWidget {
 class _StarDetailsState extends State<StarDetails> {
   @override
   Widget build(BuildContext context) {
+    int index = widget.ind! + 1;
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -39,7 +41,11 @@ class _StarDetailsState extends State<StarDetails> {
                   top: screenHeight * 0.017,
                   left: screenWidth * 0.029,
                   child: Text(
-                    '# ${widget.ind}',
+                    '# $index',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(fontWeight: FontWeight.w300, fontSize: 24),
                   ),
                 ),
                 Positioned(
@@ -58,8 +64,12 @@ class _StarDetailsState extends State<StarDetails> {
                 ),
                 Positioned(
                   top: screenHeight * 0.11,
-                  child: const Text(
+                  child: Text(
                     'Star',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(fontWeight: FontWeight.w300, fontSize: 26),
                   ),
                 ),
                 Positioned(
@@ -74,11 +84,13 @@ class _StarDetailsState extends State<StarDetails> {
                   top: screenHeight * 0.17,
                   child: Text(
                     widget.starDetails[widget.ind]['name'],
-                    style: TextStyle(
-                        fontSize: screenHeight * 0.041,
-                        color: Colors.white,
-                        fontFamily: 'PTSerif-Regular',
-                        fontWeight: FontWeight.w300),
+                    style: GoogleFonts.exo(
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(
+                              fontWeight: FontWeight.w400, color: Colors.white),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -98,7 +110,7 @@ class _StarDetailsState extends State<StarDetails> {
                           const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
                       child: const Center(
                         child: Icon(
-                          Icons.arrow_forward,
+                          Icons.chevron_right_outlined,
                           color: Colors.white,
                         ),
                       ),
@@ -121,7 +133,8 @@ class _StarDetailsState extends State<StarDetails> {
                         radius: 25,
                         backgroundColor: const Color.fromRGBO(37, 42, 52, 1)
                             .withOpacity(0.8),
-                        child: const Center(child: Icon(Icons.arrow_back)),
+                        child: const Center(
+                            child: Icon(Icons.chevron_left_outlined)),
                       ),
                     );
                   }),
@@ -192,13 +205,16 @@ class _StarDetailsState extends State<StarDetails> {
         Text(
           "${detailName}",
           textAlign: TextAlign.left,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Text(
           ':',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Text(
           detailValue,
           textAlign: TextAlign.right,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );

@@ -21,19 +21,44 @@ class _CurrentAPODResultPageState extends State<CurrentAPODResultPage> {
         body: SingleChildScrollView(
           physics:
               BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          child: Padding(
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(37, 42, 52, 1).withOpacity(0.8),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            margin: const EdgeInsets.all(16),
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
-              Text(
-                '${widget.apodData['title']}',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(fontSize: 23),
-              ),
-              Text(
-                '(Date: ${widget.apodData['date']})', //add two days
-                style: Theme.of(context).textTheme.bodyMedium,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${widget.apodData['title']}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(
+                                  fontSize: 23, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '(Date: ${widget.apodData['date']})', //add two days
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 4,
@@ -60,7 +85,7 @@ class _CurrentAPODResultPageState extends State<CurrentAPODResultPage> {
                 ),
               ),
               const SizedBox(
-                height: 4,
+                height: 2,
               ),
               Text(
                 widget.apodData['explanation'],
