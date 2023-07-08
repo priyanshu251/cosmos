@@ -45,24 +45,26 @@ class _HomePageState extends State<HomePage> {
     var w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
+        height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('images/bck1.jpeg'),
             fit: BoxFit.cover,
           ),
         ),
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(20, 50, 20, 15),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 50, 20, 15),
           child: SingleChildScrollView(
-            physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            physics: BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
             child: Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 100,
+                  SizedBox(
+                    height: w * 0.21,
                   ),
                   Text(
                     'Space\nExploration',
@@ -81,10 +83,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Text(
                     'Embark on a cosmic adventure with our space exploration app. Discover captivating astronomical pictures of the day from NASA\'s API. Customize and explore a curated list of planets based on temperature, mass, and radius preferences. Dive into the fascinating world of stars with a comprehensive corresponding list.',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(fontWeight: FontWeight.w300, fontSize: 18),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontWeight: FontWeight.w300, fontSize: w * 0.0435),
                     textAlign: TextAlign.left,
                   ),
                   SizedBox(
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                           RotatedBox(
                             quarterTurns: 3,
                             child: Container(
-                              width: 220,
+                              width: w / 1.85,
                               child: SliderTheme(
                                 data: Theme.of(context).sliderTheme.copyWith(
                                       activeTrackColor: Colors.white70,
@@ -175,13 +175,13 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        width: 15,
+                      SizedBox(
+                        width: w * 0.035,
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 50,
+                  SizedBox(
+                    height: w * 0.115,
                   )
                 ],
               ),

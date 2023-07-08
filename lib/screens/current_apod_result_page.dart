@@ -1,6 +1,6 @@
-import 'package:astro_pro/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:intl/intl.dart';
 
 class CurrentAPODResultPage extends StatefulWidget {
   //is it important to be a stateful widget?
@@ -15,7 +15,10 @@ class _CurrentAPODResultPageState extends State<CurrentAPODResultPage> {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
-
+    DateTime currentAPODDate = DateFormat("yyyy-MM-dd")
+        .parse(widget.apodData['date'])
+        .add(const Duration(days: 2));
+    String currAPODDate = DateFormat("dd-MM-yyyy").format(currentAPODDate);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -46,7 +49,7 @@ class _CurrentAPODResultPageState extends State<CurrentAPODResultPage> {
                                   fontSize: 23, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '(Date: ${widget.apodData['date']})', //add two days
+                          '($currAPODDate)', //add two days
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
