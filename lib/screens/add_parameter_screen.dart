@@ -46,7 +46,7 @@ class _AddParameterScreenState extends State<AddParameterScreen> {
                   textStyle: Theme.of(context)
                       .textTheme
                       .titleLarge!
-                      .copyWith(fontSize: 22, fontWeight: FontWeight.w400)),
+                      .copyWith(fontSize: 19, fontWeight: FontWeight.w400)),
               textAlign: TextAlign.center,
             ),
             const Divider(

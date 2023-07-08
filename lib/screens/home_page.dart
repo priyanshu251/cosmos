@@ -58,133 +58,127 @@ class _HomePageState extends State<HomePage> {
             physics: BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics(),
             ),
-            child: Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: w * 0.21,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: w * 0.21,
+                ),
+                Text(
+                  'Space\nExploration',
+                  textAlign: TextAlign.left,
+                  style: GoogleFonts.orbitron(
+                    textStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontSize: w * 0.129,
+                        color: Color.fromARGB(255, 219, 219, 219)),
                   ),
-                  Text(
-                    'Space\nExploration',
-                    textAlign: TextAlign.left,
-                    style: GoogleFonts.orbitron(
-                      textStyle: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(
-                              fontSize: w * 0.156,
-                              color: Color.fromARGB(255, 219, 219, 219)),
-                    ),
-                  ),
-                  SizedBox(
-                    height: w * 0.06,
-                  ),
-                  Text(
-                    'Embark on a cosmic adventure with our space exploration app. Discover captivating astronomical pictures of the day from NASA\'s API. Customize and explore a curated list of planets based on temperature, mass, and radius preferences. Dive into the fascinating world of stars with a comprehensive corresponding list.',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.w300, fontSize: w * 0.0435),
-                    textAlign: TextAlign.left,
-                  ),
-                  SizedBox(
-                    height: w * 0.15,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          RotatedBox(
-                            quarterTurns: 3,
-                            child: Container(
-                              width: w / 1.85,
-                              child: SliderTheme(
-                                data: Theme.of(context).sliderTheme.copyWith(
-                                      activeTrackColor: Colors.white70,
-                                      inactiveTrackColor: Colors.white30,
-                                      thumbColor: const Color.fromARGB(
-                                          255, 216, 214, 214),
-                                    ),
-                                child: Slider(
-                                  value: volume,
-                                  min: 0,
-                                  max: 1,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      volume = newValue;
-                                      assetsAudioPlayer.setVolume(volume);
-                                      if (volume == 0) {
-                                        isSoundOn = false;
-                                      }
-                                      if (volume != 0) {
-                                        isSoundOn = true;
-                                      }
-                                    });
-                                  },
-                                ),
+                ),
+                SizedBox(
+                  height: w * 0.06,
+                ),
+                Text(
+                  'Embark on a cosmic adventure with our space exploration app. Discover captivating astronomical pictures of the day from NASA\'s API. Customize and explore a curated list of planets based on temperature, mass, and radius preferences. Dive into the fascinating world of stars with a comprehensive corresponding list.',
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.w300, fontSize: w * 0.0355),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(
+                  height: w * 0.15,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        RotatedBox(
+                          quarterTurns: 3,
+                          child: Container(
+                            width: w / 1.85,
+                            child: SliderTheme(
+                              data: Theme.of(context).sliderTheme.copyWith(
+                                    activeTrackColor: Colors.white70,
+                                    inactiveTrackColor: Colors.white30,
+                                    thumbColor: const Color.fromARGB(
+                                        255, 216, 214, 214),
+                                  ),
+                              child: Slider(
+                                value: volume,
+                                min: 0,
+                                max: 1,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    volume = newValue;
+                                    assetsAudioPlayer.setVolume(volume);
+                                    if (volume == 0) {
+                                      isSoundOn = false;
+                                    }
+                                    if (volume != 0) {
+                                      isSoundOn = true;
+                                    }
+                                  });
+                                },
                               ),
                             ),
                           ),
-                          Icon(
-                            isSoundOn ? Icons.music_note : Icons.music_off,
-                            color: const Color.fromARGB(255, 216, 214, 214),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Column(
-                        children: [
-                          ExplorationTitle(
-                            title: 'APOD',
-                            onPress: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) => SingleChildScrollView(
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    child: const AddParameterScreen(),
-                                  ),
+                        ),
+                        Icon(
+                          isSoundOn ? Icons.music_note : Icons.music_off,
+                          color: const Color.fromARGB(255, 216, 214, 214),
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    Column(
+                      children: [
+                        ExplorationTitle(
+                          title: 'APOD',
+                          onPress: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) => SingleChildScrollView(
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: const AddParameterScreen(),
                                 ),
-                              );
-                            },
-                          ),
-                          ExplorationTitle(
-                              title: 'Planets',
-                              onPress: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) =>
-                                            const PlanetList())));
-                              }),
-                          ExplorationTitle(
-                            title: 'Stars',
+                              ),
+                            );
+                          },
+                        ),
+                        ExplorationTitle(
+                            title: 'Planets',
                             onPress: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: ((context) =>
-                                          const StarList())));
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: w * 0.035,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: w * 0.115,
-                  )
-                ],
-              ),
+                                          const PlanetList())));
+                            }),
+                        ExplorationTitle(
+                          title: 'Stars',
+                          onPress: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => const StarList())));
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: w * 0.035,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: w * 0.115,
+                )
+              ],
             ),
           ),
         ),
